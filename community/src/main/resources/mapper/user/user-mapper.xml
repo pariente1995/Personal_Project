@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/dtd/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 패키지명.인터페이스명까지 지정해주어야 한다. -->
+<mapper namespace="com.saeahga.community.mapper.UserMapper">
+    <select id="getUser" parameterType="String" resultType="camelHashMap">
+        SELECT *
+          FROM T_SAG_USER
+         WHERE USER_ID = #{userId}
+    </select>
+</mapper>
