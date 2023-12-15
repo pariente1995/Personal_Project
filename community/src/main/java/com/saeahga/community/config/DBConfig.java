@@ -13,8 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
-@Configuration // eclipse가 설정파일이다 라고 알려줌
+@Configuration // 설정파일이다 라고 알려줌
 @PropertySource("classpath:/application.properties")
 public class DBConfig {
     // DB 연동
@@ -53,4 +54,12 @@ public class DBConfig {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
     // Mybatis 연동 END ======
+
+    // JPA 연동 START ======
+    @Bean
+    @ConfigurationProperties(prefix="spring.jpa")
+    public Properties hibernateConfig() {
+        return new Properties();
+    }
+    // JPA 연동 END ======
 }
