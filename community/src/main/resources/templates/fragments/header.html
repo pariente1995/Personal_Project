@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- 스프핑 시큐리티 사용을 위한 -->
+<!-- xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> -->
+
+<head>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            $(function() {
+                /*
+                    지금 현재 페이지가 header.html 페이지가 아니기 떄문에
+                    header에 있는 script가 동작하지 않는다.
+                    header에서 동작해야 되는 script는,
+                    공통 header.js로 빼서, 모든 페이지도 동작하게 만든다.
+                    header.js 만들면, config.html에 추가해야된다.
+                    ( config.html에 js파일 추가!!!! )
+
+                    Form 태그안에 input박스 하나라도 있으면,
+                    자동으로 submit이 되기 때문에, 따로 엔터조회, a조회 할 필요가 없다.
+
+                    a태그 사용하여 form submit시 무조건 e.preventDefault()하기.
+                */
+
+            })
+        </script>
+    </th:block>
+</head>
+
+<body>
+<header th:fragment="header">
+    <h1>header</h1>
+</header>
+</body>
+</html>

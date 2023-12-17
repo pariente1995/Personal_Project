@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/getUser/{userId}")
     public Map<String, Object> getUser(@PathVariable String userId) {
-        Map<String, Object> resultMap = new HashMap();
+        Map<String, Object> resultMap = new HashMap<>();
         resultMap = userService.getUser(userId);
 
         return resultMap;
