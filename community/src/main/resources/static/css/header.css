@@ -5,3 +5,20 @@ nav {
 .container a {
     color: white;
 }
+
+/* a태그 클릭 후 색깔 */
+.container a:visited {
+    color: white;
+}
+
+.container a:hover {
+    color: pink;
+}
+
+#header-navbar-logo-image {
+    width: 60px;
+}
+
+#header-navbar-join-image {
+    width: 35px;
+}

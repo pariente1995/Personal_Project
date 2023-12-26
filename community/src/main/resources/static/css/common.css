@@ -1,0 +1,7 @@
+/* 구글 웹 폰트 사용 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
+
+body {
+    /* !important -> 최우선으로 적용 */
+    font-family: 'Noto Sans KR', sans-serif !important;
+}
