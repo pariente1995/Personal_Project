@@ -22,3 +22,18 @@ nav {
 #header-navbar-join-image {
     width: 35px;
 }
+
+/* 메뉴 글자색 */
+.header-bottom-ul .nav-item .nav-link {
+    color: black;
+}
+
+/* hr 태그 위, 아래 margin 설정 / 오른쪽, 왼쪽은 auto */
+header hr {
+    margin: 0 auto;
+}
+
+/* 메뉴 왼쪽, 오른쪽 margin 설정 / 위, 아래 auto */
+.header-bottom-ul .nav-item {
+    margin: auto 10px;
+}
