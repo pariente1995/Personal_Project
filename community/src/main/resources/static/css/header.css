@@ -36,4 +36,5 @@ header hr {
 /* 메뉴 왼쪽, 오른쪽 margin 설정 / 위, 아래 auto */
 .header-bottom-ul .nav-item {
     margin: auto 10px;
+    border-bottom: 3px solid white;
 }
