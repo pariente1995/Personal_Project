@@ -7,18 +7,92 @@
 <!-- head 영역 시작 -->
 <!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
 <head>
-  <th:block layout:fragment="css">
-<!--    <link rel="stylesheet" th:href="@{/css/main.css}"/>-->
-  </th:block>
-  <th:block layout:fragment="script">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
 
-  </th:block>
+    </th:block>
 </head>
 <!-- head 영역 끝 -->
 
 <body>
-  <div layout:fragment="content">
-    <h1>Content</h1>
-  </div>
+    <div layout:fragment="content">
+        <div id="main-container">
+            <!-- 저출산 뉴스&출산 혜택 정보 블로그 리스트 영역 -->
+            <div id="main-wrapper">
+                <!-- 저출산 뉴스 영역-->
+                <div id="main-news-list">
+                    <h5>저출산 뉴스</h5>
+                    <hr>
+                    <div class="main-news-list-items">
+                        <div class="main-news-list-img">
+                            <a href="#"><img th:src="@{/images/newsImg.jpg}" class="news-img"></a>
+                        </div>
+                        <div class="news-info">
+                            <a href="#">정부, 저출산 특단 대책 추진···"내년 극복 원년"</a>
+                            <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 정밀하게 분"</p>
+                            <span>MBC</span>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="main-news-list-items">
+                        <div class="main-news-list-img">
+                            <a href="#"><img th:src="@{/images/newsImg.jpg}" class="news-img"></a>
+                        </div>
+                        <div class="news-info">
+                            <a href="#">정부, 저출산 특단 대책 추진···"내년 극복 원년"</a>
+                            <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 정밀하게 분"</p>
+                            <span>MBC</span>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="main-news-list-items">
+                        <div class="main-news-list-img">
+                            <a href="#"><img th:src="@{/images/newsImg.jpg}" class="news-img"></a>
+                        </div>
+                        <div class="news-info">
+                            <a href="#">정부, 저출산 특단 대책 추진···"내년 극복 원년"</a>
+                            <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 정밀하게 분"</p>
+                            <span>MBC</span>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="main-news-list-items">
+                        <div class="main-news-list-img">
+                            <a href="#"><img th:src="@{/images/newsImg.jpg}" class="news-img"></a>
+                        </div>
+                        <div class="news-info">
+                            <a href="#">정부, 저출산 특단 대책 추진···"내년 극복 원년"</a>
+                            <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 정밀하게 분"</p>
+                            <span>MBC</span>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="main-news-list-items">
+                        <div class="main-news-list-img">
+                            <a href="#"><img th:src="@{/images/newsImg.jpg}" class="news-img"></a>
+                        </div>
+                        <div class="news-info">
+                            <a href="#">정부, 저출산 특단 대책 추진···"내년 극복 원년"</a>
+                            <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 정밀하게 분"</p>
+                            <span>MBC</span>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <!-- 출산 혜택 정보 블로그 영역-->
+                <div id="main-blog-list">
+                    <h5>출산 혜택 정보 블로그</h5>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- 국내 결혼 중개업 영역 -->
+            <div id="main-side-wrapper">
+                <h5>국내 결혼 중개업</h5>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

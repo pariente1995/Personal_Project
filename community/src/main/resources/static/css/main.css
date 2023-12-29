@@ -1,0 +1,75 @@
+#main-container {
+    margin: 0 15%;
+    display: flex;
+    /* hr과 동일한 색상 */
+    border-top: 1px solid #C7C8C9;
+}
+
+#main-wrapper {
+    width: 60%;
+    padding-top: 5%;
+    /* hr과 동일한 색상 */
+    border-right: 1px solid #C7C8C9;
+}
+
+#main-side-wrapper {
+    width: 40%;
+    padding-top: 2%;
+    padding-left: 2%;
+}
+
+#main-news-list {
+    margin-bottom: 50px;
+}
+
+.main-news-list-items {
+    width: 100%;
+    padding-right: 5%;
+    display: flex;
+    /* 여유 공간이 없을 시, 줄바꿈 처리 */
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.main-news-list-items hr {
+    width: 100%;
+    display: block;
+}
+
+.main-news-list-img {
+    width: 100px;
+    margin-right: 17px;
+}
+
+.news-img {
+    width: 100px;
+    height: 90px;
+}
+
+.news-info {
+    /* 117px -> 이미지 영역 100px + 이미지 마진 17px */
+    width: calc(100% - 117px);
+    /* 영역을 넘어가도 줄바꿈 되지 않게 */
+    white-space: nowrap;
+    overflow: hidden;
+    /* 말줄임 표시 */
+    text-overflow: ellipsis;
+}
+
+.news-info a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.15em;
+}
+
+.news-info p {
+    color: #888888;
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-info span {
+    color: #888888;
+    font-size: 0.9em;
+}
