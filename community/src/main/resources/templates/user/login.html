@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-user}">
+
+<!-- head 영역 시작 -->
+<!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+        </script>
+    </th:block>
+</head>
+<!-- head 영역 끝 -->
+
+<body>
+    <div layout:fragment="content">
+        <div id="login-container">
+            <div id="login-wrapper">
+                <h2>SAEAHGA</h2>
+                <div id="form-wrapper">
+                    <form id="login-form">
+                        <div id="id-wrapper">
+                            <img class="login-image" th:src="@{/images/login.png}">
+                            <input type="text" name="userId" id="userId" required placeholder="아이디">
+                        </div>
+                        <div id="pw-wrapper">
+                            <img class="login-image" th:src="@{/images/password.png}">
+                            <input type="password" name="userPw" id="userPw" required placeholder="비밀번호">
+                        </div>
+                        <button type="submit" id="btn-login">로그인</button>
+                    </form>
+                </div>
+                <div id="find-wrapper">
+                    <a href="#" id="find-pw">비밀번호 찾기</a>
+                    <a href="#" id="find-id">아이디 찾기</a>
+                    <a href="#" id="join">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

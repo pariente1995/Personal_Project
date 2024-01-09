@@ -5,18 +5,23 @@
     border-top: 1px solid #C7C8C9;
 }
 
+/* 저출산 뉴스 및 출산 혜택 정보 블로그 영역 */
 #main-wrapper {
     width: 60%;
     padding-top: 5%;
+    padding-bottom: 3%;
     /* hr과 동일한 색상 */
     border-right: 1px solid #C7C8C9;
 }
 
+/* 국내 결혼 중개업 영역 */
 #main-side-wrapper {
     width: 40%;
+    height: auto;
     padding-top: 2%;
     padding-left: 2%;
 }
+
 
 /* === 저출산 뉴스 영역 === */
 #main-news-list {
@@ -142,3 +147,53 @@
     color: #9E9E9E;
     font-size: 0.8em;
 }
+
+
+/* === 국내 결혼 중개업 영역 === */
+#main-broker-list {
+    position: -webkit-sticky; /* 사파리 브라우저 지원 */
+    /* position: sticky 사용 시, 부모의 height 를 설정해주어야 한다. */
+    /* 스크롤 시, 사이드바 고정 효과 */
+    position: sticky;
+    /*
+        top, bottom, left, right 들 중에 하나를 필수적으로 설정해주어야 한다.
+        해당 설정 값 이후부터 사이드바 고정.
+        상단에서 픽셀만큼 요소를 아래에 고정시킴.
+    */
+    top: 30px;
+    width: 70%;
+    border-bottom: 1px solid #C7C8C9;
+}
+
+#main-broker-list span {
+    color: #9E9E9E;
+    font-size: 0.8em;
+    display: inline-block;
+    margin-bottom: 25px;
+}
+
+#main-broker-list .main-broker-list-items {
+    margin-bottom: 20px;
+}
+
+.main-broker-list-items a {
+    text-decoration: none;
+    color: #696969;
+}
+
+.main-broker-list-items a:hover {
+    text-decoration: underline;
+}
+
+#broker-view-more-wrapper {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 12px;
+    padding-right: 20px;
+}
+
+#broker-view-more a {
+    text-decoration: none;
+    color: #9E9E9E;
+}
+
