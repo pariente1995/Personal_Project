@@ -83,12 +83,46 @@
     margin-top: 10px;
 }
 
-#find-wrapper a {
+#find-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.find-li {
+    display: inline-block;
     padding: 0 15px;
+}
+
+.find-ul-common {
+    border-right: 1px solid #9E9E9E;
+}
+
+.find-li a {
     color: #9E9E9E;
     text-decoration: none;
 }
 
-#find-pw, #find-id {
-    border-right: 1px solid #9E9E9E;
+#sns-wrapper {
+    margin-top: 30px;
+}
+
+#sns-ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sns-kakao {
+    margin-bottom: 15px;
+}
+
+.btn-sns-login {
+    padding: 0;
+    background-color: white;
+    border: none;
+}
+
+.sns-image {
+    width: 300px;
+    height: 50px
 }

@@ -12,6 +12,27 @@
     </th:block>
     <th:block layout:fragment="script">
         <script th:inline="javascript">
+            $(function() {
+                // 아이디 칸으로 포커스 이동 시 border 효과
+                $("#userId").on("focus", function() {
+                    $("#id-wrapper").css("border", "2px solid #3F63BF");
+                });
+
+                // 아이디 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userId").on("blur", function() {
+                    $("#id-wrapper").css("border", "1px solid #C7C8C9");
+                });
+
+                // 비밀번호 칸으로 포커스 이동 시 border 효과
+                $("#userPw").on("focus", function() {
+                    $("#pw-wrapper").css("border", "2px solid #3F63BF");
+                });
+
+                // 비밀번호 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userPw").on("blur", function() {
+                    $("#pw-wrapper").css("border", "1px solid #C7C8C9");
+                });
+            });
         </script>
     </th:block>
 </head>
@@ -36,9 +57,17 @@
                     </form>
                 </div>
                 <div id="find-wrapper">
-                    <a href="#" id="find-pw">비밀번호 찾기</a>
-                    <a href="#" id="find-id">아이디 찾기</a>
-                    <a href="#" id="join">회원가입</a>
+                    <ul id="find-ul">
+                        <li class="find-li find-ul-common"><a href="#">비밀번호 찾기</a></li>
+                        <li class="find-li find-ul-common"><a href="#">아이디 찾기</a></li>
+                        <li class="find-li"><a href="#">회원가입</a></li>
+                    </ul>
+                </div>
+                <div id="sns-wrapper">
+                    <ul id="sns-ul">
+                        <li class="sns-li sns-kakao"><button type="button" class="btn-sns-login"><img class="sns-image" th:src="@{/images/kakao.png}"></button></li>
+                        <li class="sns-li"><button type="button" class="btn-sns-login"><img class="sns-image" th:src="@{/images/naver.png}"></button></li>
+                    </ul>
                 </div>
             </div>
         </div>
