@@ -2,7 +2,6 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    flex-direction: column;
 }
 
 #login-wrapper {
@@ -40,8 +39,18 @@
     padding-left: 10px;
     display: flex;
     align-items: center;
+}
+
+#id-wrapper {
     /* hr과 동일한 색상 */
     border: 1px solid #C7C8C9;
+}
+
+#pw-wrapper {
+    /* hr과 동일한 색상 */
+    border-left: 1px solid #C7C8C9;
+    border-right: 1px solid #C7C8C9;
+    border-bottom: 1px solid #C7C8C9;
 }
 
 #id-wrapper input::placeholder, #pw-wrapper input::placeholder {

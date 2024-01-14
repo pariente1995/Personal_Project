@@ -26,6 +26,7 @@ public class UserController {
         return resultMap;
     }
 
+    // 로그인 화면으로 이동
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView();
@@ -33,6 +34,16 @@ public class UserController {
         // templates 폴더 안에서, user 폴더 아래 login.html
         mv.setViewName("user/login");
 
+        return mv;
+    }
+    
+    // 회원가입 화면으로 이동
+    @GetMapping("/join")
+    public ModelAndView join() {
+        ModelAndView mv = new ModelAndView();
+        
+        mv.setViewName("user/join");
+        
         return mv;
     }
 }

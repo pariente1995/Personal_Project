@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-user}">
+
+<!-- head 영역 시작 -->
+<!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/join.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
+        <!-- 다음 주소 API 관련 -->
+        <script th:inline="javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script th:inline="javascript">
+            $(function() {
+                let idValidation = false;
+                let pwValidation = false;
+                let pwCheck = false;
+                let nmValidation = false;
+                let phoneValidation = false;
+                let mailValidation = false;
+
+                /* 아이디 중복체크 */
+
+                /* ========== 유효성 검사 start ========== */
+                // 아이디 유효성 검사(5~20자의 영문 소문자와 숫자만 사용 가능)
+                function validateId(ch) {
+                    return /^[a-z0-9]{5,20}$/.test(ch);
+                }
+
+                $("#userId").on("change", function () {
+                    if (!validateId($("#userId").val())) {
+                        idValidation = false;
+                        $("#id-validation").css("display", "block");
+                        $("#userId").focus();
+                    } else {
+                        idValidation = true;
+                        $("#id-validation").css("display", "none");
+                    }
+                });
+
+                // 비밀번호 유효성 검사(영문자, 숫자, 특수문자 조합의 9자리 이상만 사용 가능)
+                function validatePw(ch) {
+                    return /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{9,}$/.test(ch);
+                }
+
+                // 비밀번호 재확인
+                function validatePwCheck() {
+                    if ($("#userPw").val() == $("#userPwCheck").val()) {
+                        pwCheck = true;
+                        $("#pw-check-true").css("display", "block");
+                        $("#pw-check-false").css("display", "none");
+                    } else {
+                        pwCheck = false;
+                        $("#pw-check-true").css("display", "none");
+                        $("#pw-check-false").css("display", "block");
+                    }
+                }
+
+                $("#userPw").on("change", function () {
+                    if (!validatePw($("#userPw").val())) {
+                        pwValidation = false;
+                        $("#pw-validation").css("display", "block");
+                        $("#userPw").focus();
+                    } else {
+                        pwValidation = true;
+                        $("#pw-validation").css("display", "none");
+                    }
+
+                    // 비밀번호 재확인
+                    validatePwCheck();
+                });
+
+                // 비밀번호 재확인
+                $("#userPwCheck").on("change", function () {
+                    validatePwCheck();
+                });
+
+                // 이름 유효성 검사(한글 or 영문 대/소문자만 사용 가능)
+                function validateName(ch) {
+                    return /^[가-힣a-zA-Z]+$/.test(ch);
+                }
+
+                $("#userNm").on("change", function () {
+                    if(!validateName($("#userNm").val())) {
+                        nmValidation = false;
+                        $("#nm-validation").css("display", "block");
+                        $("#userNm").focus();
+                    } else {
+                        nmValidation = true;
+                        $("#nm-validation").css("display", "none");
+                    }
+                });
+
+                // 휴대전화번호 유효성 검사(010-****(3~4자리)-****만 가능)
+                function validatePhone(ch) {
+                    return /^010-?([0-9]{3,4})-?([0-9]{4})$/.test(ch);
+                }
+
+                $("#userPhone").on("change", function () {
+                    if(!validatePhone($("#userPhone").val())) {
+                        phoneValidation = false;
+                        $("#phone-validation").css("display", "block");
+                        $("#userPhone").focus();
+                    } else {
+                        phoneValidation = true;
+                        $("#phone-validation").css("display", "none");
+                    }
+                });
+
+                function validateMail(ch) {
+                    return /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i.test(ch);
+                }
+
+                $("#userEmail").on("change", function () {
+                    if(!validateMail($("#userEmail").val())) {
+                        mailValidation = false;
+                        $("#mail-validation").css("display", "block");
+                        $("#userEmail").focus();
+                    } else {
+                        mailValidation = true;
+                        $("#mail-validation").css("display", "none");
+                    }
+                });
+
+                /* ========== 유효성 검사 end ========== */
+
+
+                /* ========== 입력칸 관련 효과 start ========== */
+                // 각 칸으로 포커스 이동 시 border 효과 및 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userId").on("focus", function() {
+                    if(idValidation) {
+                        $(".join-list-id").css("border", "2px solid #3F63BF");
+                    } else {
+                        $(".join-list-id")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                    }
+                });
+
+                $("#userId").on("blur", function() {
+                    if(idValidation) {
+                        $(".join-list-id").css("border", "1px solid #C7C8C9");
+                    } else {
+                        $(".join-list-id")
+                            .css("border-top", "1px solid #C7C8C9")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "1px solid #C7C8C9");
+                    }
+                });
+
+                $("#userPw").on("focus", function() {
+                    if(pwValidation) {
+                        $(".join-list-pw").css("border", "2px solid #3F63BF");
+                    } else {
+                        $(".join-list-pw")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                    }
+                });
+
+                $("#userPw").on("blur", function() {
+                    if(pwValidation) {
+                        $(".join-list-pw")
+                            .css("border-top", "none")
+                            .css("border-left", "1px solid #C7C8C9")
+                            .css("border-right", "1px solid #C7C8C9")
+                            .css("border-bottom", "none");
+                    } else {
+                        $(".join-list-pw")
+                            .css("border-top", "none")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "none");
+                    }
+                });
+
+                $("#userPwCheck").on("focus", function() {
+                    if(pwCheck) {
+                        $(".join-list-pw-check").css("border", "2px solid #3F63BF");
+                    } else {
+                        $(".join-list-pw-check")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                    }
+                });
+
+                $("#userPwCheck").on("blur", function() {
+                    if(pwCheck) {
+                        $(".join-list-pw-check").css("border", "1px solid #C7C8C9");
+                    } else {
+                        $(".join-list-pw-check")
+                            .css("border-top", "1px solid #C7C8C9")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "1px solid #C7C8C9");
+                    }
+                });
+
+                $("#userNm").on("focus", function() {
+                    $(".join-list-name").css("border", "2px solid #3F63BF");
+                });
+
+                $("#userNm").on("blur", function() {
+                    $(".join-list-name").css("border", "1px solid #C7C8C9");
+                });
+
+                $("#userPhone").on("focus", function() {
+                    $(".join-list-phone").css("border", "2px solid #3F63BF");
+                });
+
+                $("#userPhone").on("blur", function() {
+                    $(".join-list-phone")
+                        .css("border-top", "none")
+                        .css("border-left", "1px solid #C7C8C9")
+                        .css("border-right", "1px solid #C7C8C9")
+                        .css("border-bottom", "1px solid #C7C8C9");
+                });
+
+                $("#userEmail").on("focus", function() {
+                    $(".join-list-mail").css("border", "2px solid #3F63BF");
+                });
+
+                $("#userEmail").on("blur", function() {
+                    $(".join-list-mail")
+                        .css("border-top", "none")
+                        .css("border-left", "1px solid #C7C8C9")
+                        .css("border-right", "1px solid #C7C8C9")
+                        .css("border-bottom", "none");
+                });
+
+                $("#userAddr").on("focus", function() {
+                    $(".join-list-address").css("border", "2px solid #3F63BF");
+                });
+
+                $("#userAddr").on("blur", function() {
+                    $(".join-list-address").css("border", "1px solid #C7C8C9");
+                });
+                /* ========== 입력칸 관련 효과 end ========== */
+            });
+
+            /* ========== 다음 주소 API 연동 ========== */
+            function daumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var roadAddr = data.roadAddress; // 도로명 주소 변수
+                        var extraRoadAddr = ''; // 참고 항목 변수
+
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraRoadAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraRoadAddr !== '') {
+                            extraRoadAddr = ' (' + extraRoadAddr + ')';
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById("userAddr").value = roadAddr;
+                    }
+                }).open();
+            }
+        </script>
+    </th:block>
+</head>
+<!-- head 영역 끝 -->
+
+<body>
+    <div layout:fragment="content">
+        <div id="join-container">
+            <div id="join-wrapper">
+                <h2>SAEAHGA</h2>
+                <form id="join-form" action="#" method="post">
+                    <div class="join-list" id="join-list-top">
+                        <div class="join-list-id join-list-item" data-focus-yn="N">
+                            <img class="join-image" th:src="@{/images/login.png}">
+                            <input type="text" name="userId" id="userId" class="join-input" required placeholder="아이디"
+                                   size="30" maxlength="20">
+                            <button type="button" class="btn-id-check" id="btnIdCheck">중복체크</button>
+                        </div>
+                        <div class="join-list-pw join-list-item" data-focus-yn="N">
+                            <img class="join-pw-image" th:src="@{/images/password.png}">
+                            <input type="password" name="userPw" id="userPw" class="join-input" required placeholder="비밀번호"
+                                   size="30" maxlength="20">
+                        </div>
+                        <div class="join-list-pw-check join-list-item" data-focus-yn="N">
+                            <img class="join-pw-image" th:src="@{/images/password.png}">
+                            <input type="password" name="userPwCheck" id="userPwCheck" class="join-input" required placeholder="비밀번호 재확인"
+                                   size="30" maxlength="20">
+                        </div>
+                    </div>
+                    <!-- 유효성 검사 관련 메시지 출력 부분 -->
+                    <div class="validation-result" id="id-validation">
+                        · 아이디: 5~20자의 영문 소문자 및 숫자만 사용 가능합니다.
+                    </div>
+                    <div class="validation-result" id="pw-validation">
+                        · 비밀번호: 영문자, 숫자, 특수문자 조합의 9자리 이상만 사용 가능합니다.
+                    </div>
+                    <div id="pw-check-true">
+                        · 비밀번호가 일치합니다.
+                    </div>
+                    <div class="validation-result" id="pw-check-false">
+                        · 비밀번호가 일치하지 않습니다.
+                    </div>
+                    <div class="join-list" id="join-list-bottom">
+                        <div class="join-list-name join-list-item">
+                            <img class="join-image" th:src="@{/images/login.png}">
+                            <input type="text" name="userNm" id="userNm" class="join-input" required placeholder="이름" size="30" maxlength="20">
+                        </div>
+                        <div class="join-list-phone join-list-item">
+                            <img class="join-phone-image" th:src="@{/images/phone.png}">
+                            <input type="text" name="userPhone" id="userPhone" class="join-input" required placeholder="휴대전화번호"
+                                   size="30" maxlength="20">
+                        </div>
+                        <div class="join-list-mail join-list-item">
+                            <img class="join-mail-image" th:src="@{/images/mail.png}">
+                            <input type="text" name="userEmail" id="userEmail" class="join-input" required placeholder="이메일"
+                                   size="30" maxlength="100">
+                        </div>
+                        <div class="join-list-address join-list-item">
+                            <img class="join-address-image" th:src="@{/images/address.png}">
+                            <input type="text" name="userAddr" id="userAddr" class="join-input" required placeholder="주소"
+                                   size="30" maxlength="150">
+                            <button type="button" class="btn-addr-check" id="btnAddrCheck" onclick="daumPostcode()">주소 찾기</button>
+                        </div>
+                    </div>
+                    <!-- 유효성 검사 관련 메시지 출력 부분 -->
+                    <div class="validation-result" id="nm-validation">
+                        · 이름: 한글, 영문 대/소문자만 사용 가능합니다.
+                    </div>
+                    <div class="validation-result" id="phone-validation">
+                        · 휴대전화번호: 010-****(3~4자리)-**** 형식만 가능합니다.
+                    </div>
+                    <div class="validation-result" id="mail-validation">
+                        · 이메일 주소가 정확한지 확인해 주세요.
+                    </div>
+                    <div>
+
+                    </div>
+                    <div id="btn-wrapper">
+                        <button type="button" id="btn-join">회원가입</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

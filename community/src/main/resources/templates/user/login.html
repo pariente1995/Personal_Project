@@ -30,7 +30,10 @@
 
                 // 비밀번호 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
                 $("#userPw").on("blur", function() {
-                    $("#pw-wrapper").css("border", "1px solid #C7C8C9");
+                    $("#pw-wrapper").css("border-top", "none")
+                                    .css("border-left", "1px solid #C7C8C9")
+                                    .css("border-right", "1px solid #C7C8C9")
+                                    .css("border-bottom", "1px solid #C7C8C9");
                 });
             });
         </script>
@@ -44,7 +47,7 @@
             <div id="login-wrapper">
                 <h2>SAEAHGA</h2>
                 <div id="form-wrapper">
-                    <form id="login-form">
+                    <form id="login-form" action="#" method="post">
                         <div id="id-wrapper">
                             <img class="login-image" th:src="@{/images/login.png}">
                             <input type="text" name="userId" id="userId" required placeholder="아이디">
@@ -60,7 +63,7 @@
                     <ul id="find-ul">
                         <li class="find-li find-ul-common"><a href="#">비밀번호 찾기</a></li>
                         <li class="find-li find-ul-common"><a href="#">아이디 찾기</a></li>
-                        <li class="find-li"><a href="#">회원가입</a></li>
+                        <li class="find-li"><a th:href="@{/user/join}">회원가입</a></li>
                     </ul>
                 </div>
                 <div id="sns-wrapper">
