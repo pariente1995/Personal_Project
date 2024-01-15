@@ -14,8 +14,13 @@
     flex-direction: column;
 }
 
-#login-wrapper h2 {
+#login-wrapper #home {
     color: #3F63BF;
+    text-decoration: none;
+}
+
+#login-wrapper h2 {
+    margin: 0;
 }
 
 #form-wrapper {
@@ -26,7 +31,7 @@
     /* hr과 동일한 색상 */
     border: 1px solid #C7C8C9;
     border-radius: 5%;
-    margin-top: 10px;
+    margin-top: 20px;
     padding-top: 50px;
 }
 

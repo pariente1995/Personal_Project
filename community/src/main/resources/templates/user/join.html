@@ -46,19 +46,6 @@
                     return /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{9,}$/.test(ch);
                 }
 
-                // 비밀번호 재확인
-                function validatePwCheck() {
-                    if ($("#userPw").val() == $("#userPwCheck").val()) {
-                        pwCheck = true;
-                        $("#pw-check-true").css("display", "block");
-                        $("#pw-check-false").css("display", "none");
-                    } else {
-                        pwCheck = false;
-                        $("#pw-check-true").css("display", "none");
-                        $("#pw-check-false").css("display", "block");
-                    }
-                }
-
                 $("#userPw").on("change", function () {
                     if (!validatePw($("#userPw").val())) {
                         pwValidation = false;
@@ -68,14 +55,6 @@
                         pwValidation = true;
                         $("#pw-validation").css("display", "none");
                     }
-
-                    // 비밀번호 재확인
-                    validatePwCheck();
-                });
-
-                // 비밀번호 재확인
-                $("#userPwCheck").on("change", function () {
-                    validatePwCheck();
                 });
 
                 // 이름 유효성 검사(한글 or 영문 대/소문자만 사용 가능)
@@ -128,10 +107,10 @@
                 /* ========== 유효성 검사 end ========== */
 
 
-                /* ========== 입력칸 관련 효과 start ========== */
+                /* ========== 입력칸 관련 효과 & 공백 check start ========== */
                 // 각 칸으로 포커스 이동 시 border 효과 및 다른 곳으로 포커스 이동 시, 기존 상태로 원복
                 $("#userId").on("focus", function() {
-                    if(idValidation) {
+                    if(idValidation && ($("#userId").val() != "")) {
                         $(".join-list-id").css("border", "2px solid #3F63BF");
                     } else {
                         $(".join-list-id")
@@ -149,6 +128,13 @@
                             .css("border-left", "2px solid #ff0000")
                             .css("border-right", "2px solid #ff0000")
                             .css("border-bottom", "1px solid #C7C8C9");
+                    }
+
+                    if($("#userId").val() == "") {
+                        $("#id-validation").css("display", "none");
+                        $("#id-blank").css("display", "block");
+                    } else {
+                        $("#id-blank").css("display", "none");
                     }
                 });
 
@@ -168,78 +154,174 @@
                             .css("border-top", "none")
                             .css("border-left", "1px solid #C7C8C9")
                             .css("border-right", "1px solid #C7C8C9")
-                            .css("border-bottom", "none");
+                            .css("border-bottom", "1px solid #C7C8C9");
                     } else {
                         $(".join-list-pw")
                             .css("border-top", "none")
                             .css("border-left", "2px solid #ff0000")
                             .css("border-right", "2px solid #ff0000")
-                            .css("border-bottom", "none");
+                            .css("border-bottom", "1px solid #C7C8C9");
+                    }
+
+                    // 공백 체크
+                    if($("#userPw").val() == "") {
+                        $("#pw-validation").css("display", "none");
+                        $("#pw-blank").css("display", "block");
+                    } else {
+                        $("#pw-blank").css("display", "none");
                     }
                 });
 
-                $("#userPwCheck").on("focus", function() {
-                    if(pwCheck) {
-                        $(".join-list-pw-check").css("border", "2px solid #3F63BF");
+                $("#userNm").on("focus", function() {
+                    if(nmValidation) {
+                        $(".join-list-name").css("border", "2px solid #3F63BF");
                     } else {
-                        $(".join-list-pw-check")
+                        $(".join-list-name")
                             .css("border-left", "2px solid #ff0000")
                             .css("border-right", "2px solid #ff0000");
                     }
                 });
 
-                $("#userPwCheck").on("blur", function() {
-                    if(pwCheck) {
-                        $(".join-list-pw-check").css("border", "1px solid #C7C8C9");
+                $("#userNm").on("blur", function() {
+                    if(nmValidation) {
+                        $(".join-list-name").css("border", "1px solid #C7C8C9");
                     } else {
-                        $(".join-list-pw-check")
+                        $(".join-list-name")
                             .css("border-top", "1px solid #C7C8C9")
                             .css("border-left", "2px solid #ff0000")
                             .css("border-right", "2px solid #ff0000")
                             .css("border-bottom", "1px solid #C7C8C9");
                     }
-                });
 
-                $("#userNm").on("focus", function() {
-                    $(".join-list-name").css("border", "2px solid #3F63BF");
-                });
-
-                $("#userNm").on("blur", function() {
-                    $(".join-list-name").css("border", "1px solid #C7C8C9");
+                    // 공백 체크
+                    if($("#userNm").val() == "") {
+                        $("#nm-validation").css("display", "none");
+                        $("#nm-blank").css("display", "block");
+                    } else {
+                        $("#nm-blank").css("display", "none");
+                    }
                 });
 
                 $("#userPhone").on("focus", function() {
-                    $(".join-list-phone").css("border", "2px solid #3F63BF");
+                    if(phoneValidation) {
+                        $(".join-list-phone").css("border", "2px solid #3F63BF");
+                    } else {
+                        $(".join-list-phone")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                    }
                 });
 
                 $("#userPhone").on("blur", function() {
-                    $(".join-list-phone")
-                        .css("border-top", "none")
-                        .css("border-left", "1px solid #C7C8C9")
-                        .css("border-right", "1px solid #C7C8C9")
-                        .css("border-bottom", "1px solid #C7C8C9");
+                    if(phoneValidation) {
+                        $(".join-list-phone")
+                            .css("border-top", "none")
+                            .css("border-left", "1px solid #C7C8C9")
+                            .css("border-right", "1px solid #C7C8C9")
+                            .css("border-bottom", "1px solid #C7C8C9");
+                    } else {
+                        $(".join-list-phone")
+                            .css("border-top", "none")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "1px solid #C7C8C9");
+                    }
+
+                    // 공백 체크
+                    if($("#userPhone").val() == "") {
+                        $("#phone-validation").css("display", "none");
+                        $("#phone-blank").css("display", "block");
+                    } else {
+                        $("#phone-blank").css("display", "none");
+                    }
                 });
 
                 $("#userEmail").on("focus", function() {
-                    $(".join-list-mail").css("border", "2px solid #3F63BF");
+                    if(mailValidation) {
+                        $(".join-list-mail").css("border", "2px solid #3F63BF");
+                    } else {
+                        $(".join-list-mail")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                    }
                 });
 
                 $("#userEmail").on("blur", function() {
-                    $(".join-list-mail")
-                        .css("border-top", "none")
-                        .css("border-left", "1px solid #C7C8C9")
-                        .css("border-right", "1px solid #C7C8C9")
-                        .css("border-bottom", "none");
+                    if(mailValidation) {
+                        $(".join-list-mail")
+                            .css("border-top", "none")
+                            .css("border-left", "1px solid #C7C8C9")
+                            .css("border-right", "1px solid #C7C8C9")
+                            .css("border-bottom", "none");
+                    } else {
+                        $(".join-list-mail")
+                            .css("border-top", "none")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "none");
+                    }
+
+                    // 공백 체크
+                    if($("#userEmail").val() == "") {
+                        $("#mail-validation").css("display", "none");
+                        $("#mail-blank").css("display", "block");
+                    } else {
+                        $("#mail-blank").css("display", "none");
+                    }
                 });
 
-                $("#userAddr").on("focus", function() {
-                    $(".join-list-address").css("border", "2px solid #3F63BF");
+                $("#userAddr1").on("focus", function() {
+                    if($("#userAddr1").val() == "" || $("#userAddr2").val() == "") {
+                        $(".join-list-address")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                    } else {
+                        $(".join-list-address").css("border", "2px solid #3F63BF");
+                    }
                 });
 
-                $("#userAddr").on("blur", function() {
-                    $(".join-list-address").css("border", "1px solid #C7C8C9");
+                $("#userAddr1").on("blur", function() {
+                    if($("#userAddr1").val() == "" || $("#userAddr2").val() == "") {
+                        $(".join-list-address")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000");
+                        // 공백 관련
+                        $("#addr-blank").css("display", "block");
+                    } else {
+                        $(".join-list-address").css("border", "1px solid #C7C8C9");
+                        // 공백 관련
+                        $("#addr-blank").css("display", "none");
+                    }
                 });
-                /* ========== 입력칸 관련 효과 end ========== */
+
+                $("#userAddr2").on("focus", function() {
+                    if($("#userAddr1").val() == "" || $("#userAddr2").val() == "") {
+                        $(".join-list-address")
+                            .css("border-top", "1px solid #C7C8C9")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "1px solid #C7C8C9");
+                    } else {
+                        $(".join-list-address").css("border", "2px solid #3F63BF");
+                    }
+                });
+
+                $("#userAddr2").on("blur", function() {
+                    if($("#userAddr1").val() == "" || $("#userAddr2").val() == "") {
+                        $(".join-list-address")
+                            .css("border-top", "1px solid #C7C8C9")
+                            .css("border-left", "2px solid #ff0000")
+                            .css("border-right", "2px solid #ff0000")
+                            .css("border-bottom", "1px solid #C7C8C9");
+                        // 공백 관련
+                        $("#addr-blank").css("display", "block");
+                    } else {
+                        $(".join-list-address").css("border", "1px solid #C7C8C9");
+                        // 공백 관련
+                        $("#addr-blank").css("display", "none");
+                    }
+                });
+                /* ========== 입력칸 관련 효과 & 공백 check end ========== */
             });
 
             /* ========== 다음 주소 API 연동 ========== */
@@ -268,7 +350,7 @@
                         }
 
                         // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                        document.getElementById("userAddr").value = roadAddr;
+                        document.getElementById("userAddr1").value = roadAddr;
                     }
                 }).open();
             }
@@ -281,7 +363,7 @@
     <div layout:fragment="content">
         <div id="join-container">
             <div id="join-wrapper">
-                <h2>SAEAHGA</h2>
+                <a th:href="@{/home/main}" id="home"><h2>SAEAHGA</h2></a>
                 <form id="join-form" action="#" method="post">
                     <div class="join-list" id="join-list-top">
                         <div class="join-list-id join-list-item" data-focus-yn="N">
@@ -295,24 +377,19 @@
                             <input type="password" name="userPw" id="userPw" class="join-input" required placeholder="비밀번호"
                                    size="30" maxlength="20">
                         </div>
-                        <div class="join-list-pw-check join-list-item" data-focus-yn="N">
-                            <img class="join-pw-image" th:src="@{/images/password.png}">
-                            <input type="password" name="userPwCheck" id="userPwCheck" class="join-input" required placeholder="비밀번호 재확인"
-                                   size="30" maxlength="20">
-                        </div>
                     </div>
                     <!-- 유효성 검사 관련 메시지 출력 부분 -->
+                    <div class="validation-result" id="id-blank">
+                        · 아이디: 필수 정보입니다.
+                    </div>
                     <div class="validation-result" id="id-validation">
                         · 아이디: 5~20자의 영문 소문자 및 숫자만 사용 가능합니다.
                     </div>
+                    <div class="validation-result" id="pw-blank">
+                        · 비밀번호: 필수 정보입니다.
+                    </div>
                     <div class="validation-result" id="pw-validation">
                         · 비밀번호: 영문자, 숫자, 특수문자 조합의 9자리 이상만 사용 가능합니다.
-                    </div>
-                    <div id="pw-check-true">
-                        · 비밀번호가 일치합니다.
-                    </div>
-                    <div class="validation-result" id="pw-check-false">
-                        · 비밀번호가 일치하지 않습니다.
                     </div>
                     <div class="join-list" id="join-list-bottom">
                         <div class="join-list-name join-list-item">
@@ -329,25 +406,37 @@
                             <input type="text" name="userEmail" id="userEmail" class="join-input" required placeholder="이메일"
                                    size="30" maxlength="100">
                         </div>
-                        <div class="join-list-address join-list-item">
+                        <div class="join-list-address">
                             <img class="join-address-image" th:src="@{/images/address.png}">
-                            <input type="text" name="userAddr" id="userAddr" class="join-input" required placeholder="주소"
-                                   size="30" maxlength="150">
+                            <input type="hidden" name="userAddr" id="userAddr" value="">
+                            <input type="text" name="userAddr1" id="userAddr1" required placeholder="도로명 주소"
+                                   size="30" maxlength="150" readonly>
                             <button type="button" class="btn-addr-check" id="btnAddrCheck" onclick="daumPostcode()">주소 찾기</button>
+                            <input type="text" name="userAddr2" id="userAddr2" class="join-input" required placeholder="상세주소"
+                                   size="30" maxlength="150">
                         </div>
                     </div>
                     <!-- 유효성 검사 관련 메시지 출력 부분 -->
+                    <div class="validation-result" id="nm-blank">
+                        · 이름: 필수 정보입니다.
+                    </div>
                     <div class="validation-result" id="nm-validation">
                         · 이름: 한글, 영문 대/소문자만 사용 가능합니다.
+                    </div>
+                    <div class="validation-result" id="phone-blank">
+                        · 휴대전화번호: 필수 정보입니다.
                     </div>
                     <div class="validation-result" id="phone-validation">
                         · 휴대전화번호: 010-****(3~4자리)-**** 형식만 가능합니다.
                     </div>
+                    <div class="validation-result" id="mail-blank">
+                        · 이메일: 필수 정보입니다.
+                    </div>
                     <div class="validation-result" id="mail-validation">
                         · 이메일 주소가 정확한지 확인해 주세요.
                     </div>
-                    <div>
-
+                    <div class="validation-result" id="addr-blank">
+                        · 주소: 필수 정보입니다.
                     </div>
                     <div id="btn-wrapper">
                         <button type="button" id="btn-join">회원가입</button>
