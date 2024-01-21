@@ -19,11 +19,19 @@ nav {
     color: pink;
 }
 
+.custom-nav-link {
+    text-decoration: none;
+}
+
+#user-nav-link {
+    margin-right: 30px;
+}
+
 #header-navbar-logo-image {
     width: 60px;
 }
 
-#header-navbar-join-image {
+.header-navbar-join-image {
     width: 35px;
 }
 

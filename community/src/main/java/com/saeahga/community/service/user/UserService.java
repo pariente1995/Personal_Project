@@ -13,4 +13,7 @@ public interface UserService {
 
     // 아이디 중복 체크
     public User idCheck(User user);
+
+    // 회원가입
+    public User join(User user);
 }

@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // 회원가입
+    @Override
+    public User join(User user) {
+        return userRepository.save(user);
+    }
 }

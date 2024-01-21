@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http:///www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!-- 스프핑 시큐리티 사용을 위한 -->
-<!-- xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> -->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!-- 스프핑 시큐리티 사용을 위한 -->
 
 <head>
     <th:block layout:fragment="script">
@@ -34,10 +33,15 @@
             <div class="container">
                 <a class="navbar-brand" th:href="@{/home/main}">
                     <img id="header-navbar-logo-image" th:src="@{/images/baby.png}">새아가</a>
-                <div class="justify-content-end" id="navbarsExample07">
+                <!-- 인증 여부에 따라 UI 출력 -->
+                <div class="justify-content-end" id="navbarsExample07" sec:authorize="!isAuthenticated()">
                     <a class="nav-link" th:href="@{/user/login}">
-                        <img id="header-navbar-join-image" th:src="@{/images/join.png}">
+                        <img class="header-navbar-join-image" th:src="@{/images/join.png}">
                         로그인 또는 회원가입</a>
+                </div>
+                <div class="justify-content-end" id="navbarsExample07" sec:authorize="isAuthenticated()">
+                    <a class="custom-nav-link" id="user-nav-link" th:href="@{/user/login}" sec:authentication="principal.username"></a>
+                    <a class="custom-nav-link" th:href="@{/user/login}">로그아웃</a>
                 </div>
             </div>
         </nav>

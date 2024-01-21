@@ -7,18 +7,18 @@
 <!-- head 영역 시작 -->
 <!-- layout 으로 잡히는 모든 html 의 head 영역을 config.html로 대체 -->
 <!-- 공통 JS / CSS 영역을 관리하는 환경 영역-->
-<head th:replace="fragments/config :: config">
+<head th:replace="~{fragments/config :: config}">
 </head>
 <!-- head 영역 끝 -->
 
 <body>
     <!-- Header 영역을 참조합니다.-->
-    <header th:replace="fragments/header :: header"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
 
     <!-- Content 영역을 참조합니다.-->
     <div layout:fragment="content"></div>
 
     <!-- Footer 영역을 참조합니다.-->
-    <footer th:replace="fragments/footer :: footer"></footer>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

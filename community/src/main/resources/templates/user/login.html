@@ -13,6 +13,15 @@
     <th:block layout:fragment="script">
         <script th:inline="javascript">
             $(function() {
+                // 현재의 URL 가져오기
+                const url = new URL(window.location.href);
+                const urlParams = url.searchParams;
+
+                //
+                if(urlParams.get("error")) {
+                    alert(urlParams.get("errorMsg"));
+                }
+
                 // 아이디 칸으로 포커스 이동 시 border 효과
                 $("#userId").on("focus", function() {
                     $("#id-wrapper").css("border", "2px solid #3F63BF");
@@ -47,7 +56,7 @@
             <div id="login-wrapper">
                 <a th:href="@{/home/main}" id="home"><h2>SAEAHGA</h2></a>
                 <div id="form-wrapper">
-                    <form id="login-form" action="#" method="post">
+                    <form id="login-form" action="/user/loginProc" method="post">
                         <div id="id-wrapper">
                             <img class="login-image" th:src="@{/images/login.png}">
                             <input type="text" name="userId" id="userId" required placeholder="아이디">

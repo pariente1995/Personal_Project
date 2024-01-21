@@ -430,15 +430,18 @@
                         type: "post",
                         data: $("#join-form").serialize(),
                         success: function(obj) {
-                            console.log(obj.item);
-                            if(obj.item.msg == "ok") {
-                                alert("회원가입이 성공했습니다. 로그인 페이지로 이동합니다.")
+                            console.log("msg: " + obj.item.joinMsg);
+                            if(obj.item.joinMsg == "ok") {
+                                alert("회원가입이 완료되었습니다.");
+
+                                // 로그인 화면으로 이동
                                 window.location.href = "/user/login";
                             } else {
-                                alert("실패")
+                                alert("회원가입에 실패하였습니다. 관리자에게 문의하세요.");
                             }
                         },
                         error: function(e) {
+                            alert("로그인 오류. 관리자에게 문의하세요.");
                             console.log(e);
                         }
                     });
