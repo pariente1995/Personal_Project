@@ -77,8 +77,16 @@
                 </div>
                 <div id="sns-wrapper">
                     <ul id="sns-ul">
-                        <li class="sns-li sns-kakao"><button type="button" class="btn-sns-login"><img class="sns-image" th:src="@{/images/kakao.png}"></button></li>
-                        <li class="sns-li"><button type="button" class="btn-sns-login"><img class="sns-image" th:src="@{/images/naver.png}"></button></li>
+                        <li class="sns-li sns-kakao">
+                            <button type="button" onclick="location.href='/oauth2/authorization/kakao';" class="btn-sns-login">
+                                <img class="sns-image" th:src="@{/images/kakao.png}">
+                            </button>
+                        </li>
+                        <li class="sns-li">
+                            <button type="button" class="btn-sns-login">
+                                <img class="sns-image" th:src="@{/images/naver.png}">
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>

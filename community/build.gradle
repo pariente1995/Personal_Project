@@ -44,6 +44,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
 
+    // Oauth2.0 클라이언트 라이브러리 -> 소셜 로그인을 위해
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.2.2'
 }
 
 tasks.named('test') {

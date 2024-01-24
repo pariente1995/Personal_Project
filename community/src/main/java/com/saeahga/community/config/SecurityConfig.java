@@ -1,6 +1,7 @@
 package com.saeahga.community.config;
 
 import com.saeahga.community.handler.LoginFailureHandler;
+import com.saeahga.community.oauth.Oauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final LoginFailureHandler loginFailureHandler;
+    private final Oauth2UserService oauth2UserService;
 
     // 비밀번호 암호화를 위한 PasswordEncoder
     // security 에 의해 로그인 처리될 때 비밀번호 비교 시 무조건 사용
@@ -43,10 +45,11 @@ public class SecurityConfig {
                                 // 현재 "http://localhost:8080/"로 요청 시, /home/main 으로 들어오게 되어 있음
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/home/main").permitAll()
-                                // css, js, images, upload 같은 정적 리소스들도 권한처리 필수
+                                // css, js, images, favicon 같은 정적 리소스들도 권한처리 필수
                                 .requestMatchers("/css/**").permitAll()
                                 .requestMatchers("/js/**").permitAll()
                                 .requestMatchers("/images/**").permitAll()
+                                .requestMatchers("/favicon.ico").permitAll()
                                 // 누구든 접근 가능하게 함.
                                 .requestMatchers("/user/**").permitAll()
                                 // 권한을 가지고 있는 유저들만 접근할 수 있는 요청리소스 설정
@@ -74,6 +77,19 @@ public class SecurityConfig {
                                 // 로그인 성공 후 띄워 줄 화면 url
                                 .defaultSuccessUrl("/home/main")
                                 .failureHandler(loginFailureHandler)
+                );
+
+        http.
+                oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .loginPage("/user/login")
+                                // 토큰 발행 후 처리
+                                // 토큰이 발행되면 사용자 정보를 받아서 처리 가능해지는 데
+                                // 사용자 정보를 웹 사이트에 맞도록 변경해주는 작업 필요
+                                .userInfoEndpoint(userInfoEndpoint -> // 사용자 정보를 다 가지고 왔을 때
+                                        // 사용자 정보를 웹 사이트에 맞도록 변해주는 service 클래스 등록
+                                        userInfoEndpoint.userService(oauth2UserService)
+                                )
                 );
 
         http.

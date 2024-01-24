@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
+    // loadUserByUsername 메서드로 로그인한 유저가 DB에 저장되어 있는지를 찾는다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if(userRepository.findById(username).isEmpty()) {

@@ -6,18 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 // UserDetails 는, Spring Security 에서 사용자의 정보를 담는 인터페이스이다.
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, OAuth2User {
     private User user;
+
+    // 소셜 로그인에서 사용자 정보를 담아줄 맵
+    Map<String, Object> attributes;
 
     // 권한정보 제공
     @Override
@@ -72,5 +77,17 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    // OAuth2AuthenticatedPrincipal 인터페이스 메소드
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    // AuthenticatedPrincipal 인터페이스 메소드
+    @Override
+    public String getName() {
+        return user.getUserNm();
     }
 }
