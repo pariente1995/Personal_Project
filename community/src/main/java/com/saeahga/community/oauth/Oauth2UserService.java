@@ -3,6 +3,7 @@ package com.saeahga.community.oauth;
 import com.saeahga.community.entity.CustomUserDetails;
 import com.saeahga.community.entity.User;
 import com.saeahga.community.oauth.provider.KakaoUserInfo;
+import com.saeahga.community.oauth.provider.NaverUserInfo;
 import com.saeahga.community.oauth.provider.OAuth2UserInfo;
 import com.saeahga.community.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,10 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
             providerId = oAuth2UserInfo.getProviderId();
             userName = oAuth2UserInfo.getName();
+        } else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+            providerId = oAuth2UserInfo.getProviderId();
+            userName = oAuth2UserInfo.getName();
         } else {
             System.out.println("카카오와 네이버 로그인만 지원합니다.");
         }
@@ -62,6 +67,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         String type = "USER";
         String useYn = "Y";
 
+        System.out.println(userId);
         // 사용자가 이미 소셜 로그인한 기록이 있는지 검사할 객체
         User user;
 

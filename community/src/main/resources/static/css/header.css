@@ -28,6 +28,17 @@ nav {
     margin-right: 30px;
 }
 
+#logout-nav-link {
+    padding: 7px;
+    background-color: white;
+    color: #3F63BF;
+    border-radius: 15px;
+}
+
+#logout-nav-link:hover {
+    background-color: #FBD914;
+}
+
 #header-navbar-logo-image {
     width: 60px;
 }
