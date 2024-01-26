@@ -114,4 +114,14 @@ public class UserController {
             return ResponseEntity.badRequest().body(responseDTO);
         }
     }
+
+    // 아이디 찾기 화면으로 이동
+    @GetMapping("/findId")
+    public ModelAndView findId() {
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("user/find_id");
+
+        return mv;
+    }
 }

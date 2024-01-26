@@ -3,10 +3,13 @@ package com.saeahga.community.config;
 import com.saeahga.community.handler.LoginFailureHandler;
 import com.saeahga.community.oauth.Oauth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +19,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity // Security 의 filterchain 을 구현하기 위한 어노테이션
 @RequiredArgsConstructor
 public class SecurityConfig {
+    /*
+    === 스프링 시큐리티 디버그 관련 ===
+    // application.properties 에서 읽어온다.
+    // "spring.security.debug" 관련 설정이 없을 시, false 가 기본값이 된다.
+    @Value("${spring.security.debug:false}")
+    boolean securityDebug;
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.debug(securityDebug);
+    }
+    */
+
     private final LoginFailureHandler loginFailureHandler;
     private final Oauth2UserService oauth2UserService;
 
@@ -33,7 +49,7 @@ public class SecurityConfig {
         // 권한에 따른 요청주소 매핑
         // "/home"으로 시작하는 요청 리소스는 모든 사람에게 허용
         /*
-            1. spring-security 5.8 이상의 버전을 사용하는 경우에는,
+            1. Spring Security 5.8 이상의 버전을 사용하는 경우에는,
             antMatchers, mvcMatchers, regexMatchers 가 더이상 사용되지 않기 때문에, requestMatchers 를 사용해야 한다.
 
             2. Spring Security 6.1.0부터는 메서드 체이닝의 사용을 지양하고 람다식을 통해 함수형으로 설정하는 것을 지향한다.
