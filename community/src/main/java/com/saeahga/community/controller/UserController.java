@@ -1,5 +1,8 @@
 package com.saeahga.community.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saeahga.community.dto.ResponseDTO;
 import com.saeahga.community.dto.UserDTO;
 import com.saeahga.community.entity.User;
@@ -10,9 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -32,7 +37,7 @@ public class UserController {
 
     // 로그인 화면으로 이동
     @GetMapping("/login")
-    public ModelAndView login() {
+    public ModelAndView loginView() {
         ModelAndView mv = new ModelAndView();
 
         // templates 폴더 안에서, user 폴더 아래 login.html
@@ -43,7 +48,7 @@ public class UserController {
     
     // 회원가입 화면으로 이동
     @GetMapping("/join")
-    public ModelAndView join() {
+    public ModelAndView joinView() {
         ModelAndView mv = new ModelAndView();
         
         mv.setViewName("user/join");
@@ -116,12 +121,88 @@ public class UserController {
     }
 
     // 아이디 찾기 화면으로 이동
-    @GetMapping("/findId")
-    public ModelAndView findId() {
+    @GetMapping("/findIdPrev")
+    public ModelAndView findIdPrevView() {
         ModelAndView mv = new ModelAndView();
 
-        mv.setViewName("user/find_id");
+        mv.setViewName("user/find_id_prev");
 
+        return mv;
+    }
+
+    // 아이디 찾기(이름과 이메일로)
+    @PostMapping("findId")
+    public ResponseEntity<?> findId(UserDTO userDTO) {
+        ResponseDTO<Map<String, Object>> responseDTO = new ResponseDTO<>();
+
+        try {
+            User user = User.builder()
+                    .userNm(userDTO.getUserNm())
+                    .userEmail(userDTO.getUserEmail())
+                    .build();
+
+            // 이름으로 사용자 수 조회
+            int userNmCnt = userService.getUserNmCnt(user);
+
+            Map<String, Object> returnMap = new HashMap<>();
+
+            // 사용자 수가 없으면
+            if(userNmCnt == 0) {
+                returnMap.put("findIdMsg", "wrongNm");
+            } else {
+                // 이름, 이메일로 사용자 아이디 조회
+                List<User> userIdList = userService.findId(user);
+
+                if(userIdList.size() != 0) {
+                    // 화면으로 전달할 사용자 아이디 리스트
+                    List<UserDTO> getUserIdList = new ArrayList<>();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+                    for(int i=0; i<userIdList.size(); i++) {
+                        UserDTO returnUserId = UserDTO.builder()
+                                .userId(userIdList.get(i).getUserId())
+                                // 1. LocalDateTime -> Date 로 변환
+                                // 2. 날짜 포맷 적용
+                                .userRgstDate(dateFormat.format(Timestamp.valueOf(userIdList.get(i).getUserRgstDate())))
+                                .build();
+
+                        // 소셜 회원가입 구분 -> 소셜 회원가입 시, 아이디가 너무 길게 생성되기때문에
+                        if(returnUserId.getUserId().contains("kakao")) {
+                            returnUserId.setUserId("Kakao");
+                        } else if(returnUserId.getUserId().contains("naver")) {
+                            returnUserId.setUserId("Naver");
+                        }
+
+                        getUserIdList.add(returnUserId);
+                    }
+
+                    returnMap.put("findIdMsg", "infoOK");
+                    returnMap.put("getUserIdList", getUserIdList);
+                } else {
+                    // 이메일이 잘못된 경우
+                    returnMap.put("findIdMsg", "wrongEmail");
+                }
+            }
+
+            responseDTO.setItem(returnMap);
+            return ResponseEntity.ok().body(responseDTO);
+        } catch(Exception e) {
+            responseDTO.setErrorMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    // 아이디 찾기 완료 화면으로 이동
+    @PostMapping("/findIdNext")
+    public ModelAndView findIdNextView(@RequestParam("getUserIdList") String getUserIdList) throws IOException {
+        // 아이디 찾기 화면에서 찾은 사용자 아이디 리스트
+        List<UserDTO> userIdList = new ObjectMapper().readValue(getUserIdList, new TypeReference<List<UserDTO>>() {});
+
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("user/find_id_next.html");
+        mv.addObject("userIdList", userIdList);
         return mv;
     }
 }

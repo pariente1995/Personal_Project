@@ -2,6 +2,7 @@ package com.saeahga.community.service.user;
 
 import com.saeahga.community.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -9,11 +10,17 @@ public interface UserService {
 
     // 테스트
     // 사용자 조회
-    public Map<String, Object> getUser(String userId);
+    Map<String, Object> getUser(String userId);
 
     // 아이디 중복 체크
-    public User idCheck(User user);
+    User idCheck(User user);
 
     // 회원가입
-    public User join(User user);
+    User join(User user);
+
+    // 이름으로 사용자 수 조회
+    int getUserNmCnt(User user);
+
+    // 아이디 찾기(이름과 이메일로)
+    List<User> findId(User user);
 }

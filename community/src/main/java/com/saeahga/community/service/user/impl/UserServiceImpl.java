@@ -7,6 +7,8 @@ import com.saeahga.community.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -41,5 +43,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User join(User user) {
         return userRepository.save(user);
+    }
+
+    // 이름으로 사용자 수 조회
+    @Override
+    public int getUserNmCnt(User user) {
+        return userRepository.getUserNmCnt(user.getUserNm());
+    }
+
+    // 아이디 찾기(이름과 이메일로)
+    @Override
+    public List<User> findId(User user) {
+        return userRepository.findByUserNmAndUserEmail(user.getUserNm(), user.getUserEmail());
     }
 }

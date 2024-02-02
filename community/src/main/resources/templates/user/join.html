@@ -133,12 +133,13 @@
                     }
                 });
 
-                function validateMail(ch) {
+                // 이메일 유효성 검사
+                function validateEmail(ch) {
                     return /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i.test(ch);
                 }
 
                 $("#userEmail").on("change", function () {
-                    if(!validateMail($("#userEmail").val())) {
+                    if(!validateEmail($("#userEmail").val())) {
                         mailValidation = false;
                         $("#mail-validation").css("display", "block");
                         $("#userEmail").focus();

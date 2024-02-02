@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-user}">
+
+<!-- head 영역 시작 -->
+<!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/find_id_prev.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            $(function() {
+                // 이름 칸으로 포커스 이동 시 border 효과
+                $("#userNm").on("focus", function() {
+                    $("#name-wrapper").css("border", "2px solid #3F63BF");
+                });
+
+                // 이름 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userNm").on("blur", function() {
+                    $("#name-wrapper").css("border", "1px solid #C7C8C9");
+                });
+
+                // 이메일 칸으로 포커스 이동 시 border 효과
+                $("#userEmail").on("focus", function() {
+                    $("#mail-wrapper").css("border", "2px solid #3F63BF");
+                });
+
+                // 이메일 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userEmail").on("blur", function() {
+                    $("#mail-wrapper").css("border-top", "none")
+                        .css("border-left", "1px solid #C7C8C9")
+                        .css("border-right", "1px solid #C7C8C9")
+                        .css("border-bottom", "1px solid #C7C8C9");
+                });
+
+
+                // 확인 버튼 클릭 시
+                $("#btn-check").click(function () {
+                    if($("#userNm").val() == '' || $("#userNm").val() == null) {
+                        alert("이름을 입력하세요.");
+                        return;
+                    }
+
+                    if($("#userEmail").val() == '' || $("#userEmail").val() == null) {
+                        alert("이메일을 입력하세요.");
+                        return;
+                    }
+
+                    let userNm = $("#userNm").val();
+                    let userEmail = $("#userEmail").val();
+                    // 이메일 유효성
+                    let pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+                    if(pattern.test(userEmail)) {
+                        $.ajax({
+                            type: "post",
+                            url: "/user/findId",
+                            data: {
+                                "userNm": userNm,
+                                "userEmail": userEmail
+                            },
+                            success: function (obj) {
+                                if(obj.item.findIdMsg == "infoOK") {
+                                    $("#getUserIdList").val(JSON.stringify(obj.item.getUserIdList));
+                                    console.log($("#getUserIdList").val());
+
+                                    $("#complete-find-id-form").submit();
+
+                                } else if(obj.item.findIdMsg == "wrongNm") {
+                                    alert("존재하지 않는 이름 입니다.");
+                                } else if(obj.item.findIdMsg == "wrongEmail") {
+                                    alert("이메일이 일치하지 않습니다.");
+                                }
+                            },
+                            error: function(e) {
+                                console.log(e);
+                            }
+                        })
+                    } else {
+                        alert("이메일 형식을 확인해 주세요.");
+                        return;
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</head>
+<!-- head 영역 끝 -->
+
+<body>
+    <div layout:fragment="content">
+        <div id="find-id-prev-container">
+            <div id="find-id-prev-wrapper">
+                <div id="title-wrapper">
+                    <a th:href="@{/home/main}" id="home">
+                        <img id="baby-image" th:src="@{/images/baby.png}">
+                    </a>
+                    <h2>아이디 찾기</h2>
+                </div>
+                <div id="form-wrapper">
+                    <!-- 아이디 찾기 후, 아이디 찾기 완료 화면으로 넘길 데이터 -->
+                    <form id="complete-find-id-form" action="/user/findIdNext" method="post">
+                        <input type="hidden" name="getUserIdList" id="getUserIdList">
+                    </form>
+                    <!-- 아이디 찾기 -->
+                    <form id="find-id-prev-form" action="/user/findId" method="post">
+                        <div id="name-wrapper">
+                            <img class="find-image" th:src="@{/images/login.png}">
+                            <input type="text" name="userNm" id="userNm" required placeholder="이름">
+                        </div>
+                        <div id="mail-wrapper">
+                            <img class="find-image" th:src="@{/images/mail.png}">
+                            <input type="text" name="userEmail" id="userEmail" required placeholder="이메일">
+                        </div>
+                        <button type="button" id="btn-check">확인</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

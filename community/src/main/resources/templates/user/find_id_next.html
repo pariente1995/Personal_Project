@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-user}">
+
+<!-- head 영역 시작 -->
+<!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/find_id_next.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            $(function() {
+                let htmlStr = `
+                            <span style="color: black;"> 간편가입</span>
+                `;
+
+                // 소셜 회원가입 구분에 따른 글자색 변경
+                $(".user-id").each(function() {
+                    if($(this).text().indexOf("Kakao") != -1) {
+                        $(this).css("color", "#ffd400");
+                        $(this).append(htmlStr);
+                    } else if($(this).text().indexOf("Naver") != -1) {
+                        $(this).css("color", "#03C75A");
+                        $(this).append(htmlStr);
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</head>
+<!-- head 영역 끝 -->
+
+<body>
+    <div layout:fragment="content">
+        <div id="find-id-next-container">
+            <div id="find-id-next-wrapper">
+                <div id="title-wrapper">
+                    <a th:href="@{/home/main}" id="home">
+                        <img id="baby-image" th:src="@{/images/baby.png}">
+                    </a>
+                    <h2>아이디 확인</h2>
+                </div>
+                <!-- 아이디 리스트 영역 -->
+                <div id="result-wrapper">
+                    <div id="id-list-wrapper">
+                        <h5>아이디 찾기 결과입니다.</h5>
+                        <div class="id-list-items" th:each="userIdList : ${userIdList}">
+                            <img class="find-image" th:src="@{/images/login.png}">
+                            <p class="user-id" th:text="${userIdList.userId}"></p>
+                            <span class="user-rgst-date" th:text="${userIdList.userRgstDate}"></span>
+                        </div>
+                        <button type="submit" id="btn-login" onclick="location.href='/user/login';">로그인하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

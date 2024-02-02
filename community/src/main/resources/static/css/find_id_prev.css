@@ -1,10 +1,10 @@
-#find-id-container {
+#find-id-prev-container {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-#find-id-wrapper {
+#find-id-prev-wrapper {
     margin-top: 100px;
     min-width: 600px;
     display: flex;
@@ -42,7 +42,7 @@
     padding-top: 50px;
 }
 
-#find-id-form {
+#find-id-prev-form {
     width: 360px;
 }
 
@@ -82,7 +82,7 @@
     margin-right: 10px;
 }
 
-#userName, #userEmail {
+#userNm, #userEmail {
     width: 100%;
     border: none;
     /* input 클릭 시 생기는 기본 파란선 없앰 */
