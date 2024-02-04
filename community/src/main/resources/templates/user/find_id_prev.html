@@ -39,12 +39,12 @@
 
                 // 확인 버튼 클릭 시
                 $("#btn-check").click(function () {
-                    if($("#userNm").val() == '' || $("#userNm").val() == null) {
+                    if(!$("#userNm").val()) {
                         alert("이름을 입력하세요.");
                         return;
                     }
 
-                    if($("#userEmail").val() == '' || $("#userEmail").val() == null) {
+                    if(!$("#userEmail").val()) {
                         alert("이메일을 입력하세요.");
                         return;
                     }
@@ -65,10 +65,7 @@
                             success: function (obj) {
                                 if(obj.item.findIdMsg == "infoOK") {
                                     $("#getUserIdList").val(JSON.stringify(obj.item.getUserIdList));
-                                    console.log($("#getUserIdList").val());
-
                                     $("#complete-find-id-form").submit();
-
                                 } else if(obj.item.findIdMsg == "wrongNm") {
                                     alert("존재하지 않는 이름 입니다.");
                                 } else if(obj.item.findIdMsg == "wrongEmail") {
@@ -106,7 +103,7 @@
                         <input type="hidden" name="getUserIdList" id="getUserIdList">
                     </form>
                     <!-- 아이디 찾기 -->
-                    <form id="find-id-prev-form" action="/user/findId" method="post">
+                    <div id="find-id">
                         <div id="name-wrapper">
                             <img class="find-image" th:src="@{/images/login.png}">
                             <input type="text" name="userNm" id="userNm" required placeholder="이름">
@@ -116,7 +113,7 @@
                             <input type="text" name="userEmail" id="userEmail" required placeholder="이메일">
                         </div>
                         <button type="button" id="btn-check">확인</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -205,4 +205,50 @@ public class UserController {
         mv.addObject("userIdList", userIdList);
         return mv;
     }
+
+    // 비밀번호 찾기 화면으로 이동
+    @GetMapping("/findPwPrev")
+    public ModelAndView findPwPrevView() {
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("user/find_pw_prev");
+
+        return mv;
+    }
+
+    // 인증번호 전송
+    @PostMapping("/submitCode")
+    public ResponseEntity<?> submitCode(UserDTO userDTO) {
+        ResponseDTO<Map<String, String>> response = new ResponseDTO<>();
+
+        try {
+            User user = User.builder()
+                    .userId(userDTO.getUserId())
+                    .userEmail(userDTO.getUserEmail())
+                    .build();
+
+            User getUser = userService.findPw(user);
+
+            Map<String, String> returnMap = new HashMap<String, String>();
+
+            if(userService.idCheck(user) == null) { // 아이디 중복체크
+                // 아이디가 없을 경우
+                returnMap.put("findPwMsg", "wrongId");
+            } else if(getUser == null) {
+                // 이메일이 일치하지 않을 경우
+                returnMap.put("findPwMsg", "wrongEmail");
+            } else {
+                // 인증번호 생성 부분 + 메일 전송
+                userService.submitCode(user);
+                returnMap.put("findPwMsg", "submitCode");
+            }
+
+            response.setItem(returnMap);
+
+            return ResponseEntity.ok().body(response);
+        } catch(Exception e) {
+            response.setErrorMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

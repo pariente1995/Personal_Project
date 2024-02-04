@@ -23,4 +23,10 @@ public interface UserService {
 
     // 아이디 찾기(이름과 이메일로)
     List<User> findId(User user);
+
+    // 비밀번호 찾기(아이디와 이메일로)
+    User findPw(User user);
+
+    // 인증번호 생성 + 메일로 인증번호 전송
+    void submitCode(User user);
 }

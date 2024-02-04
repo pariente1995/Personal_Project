@@ -24,8 +24,8 @@
 
                 /* 아이디 중복체크 */
                 $("#btnIdCheck").on("click", function () {
-                    // 공백 체크
-                    if($("#userId").val() == '' || $("#userId").val() == null) {
+                    // 빈값 체크
+                    if(!$("#userId").val()) {
                         $("#id-blank").css("display", "block");
                         return;
                     }
@@ -152,7 +152,7 @@
                 /* ========== 유효성 검사 end ========== */
 
 
-                /* ========== 입력칸 관련 효과 & 공백 check start ========== */
+                /* ========== 입력칸 관련 효과 & 빈값 check start ========== */
                 // 각 칸으로 포커스 이동 시 border 효과 및 다른 곳으로 포커스 이동 시, 기존 상태로 원복
                 $("#userId").on("focus", function() {
                     if(($("#userId").val() != "") && idValidation && idCheck) {
@@ -208,7 +208,7 @@
                             .css("border-bottom", "1px solid #C7C8C9");
                     }
 
-                    // 공백 체크
+                    // 빈값 체크
                     if($("#userPw").val() == "") {
                         $("#pw-validation").css("display", "none");
                         $("#pw-blank").css("display", "block");
@@ -238,7 +238,7 @@
                             .css("border-bottom", "1px solid #C7C8C9");
                     }
 
-                    // 공백 체크
+                    // 빈값 체크
                     if($("#userNm").val() == "") {
                         $("#nm-validation").css("display", "none");
                         $("#nm-blank").css("display", "block");
@@ -272,7 +272,7 @@
                             .css("border-bottom", "1px solid #C7C8C9");
                     }
 
-                    // 공백 체크
+                    // 빈값 체크
                     if($("#userPhone").val() == "") {
                         $("#phone-validation").css("display", "none");
                         $("#phone-blank").css("display", "block");
@@ -306,7 +306,7 @@
                             .css("border-bottom", "none");
                     }
 
-                    // 공백 체크
+                    // 빈값 체크
                     if($("#userEmail").val() == "") {
                         $("#mail-validation").css("display", "none");
                         $("#mail-blank").css("display", "block");
@@ -330,11 +330,11 @@
                         $(".join-list-address")
                             .css("border-left", "2px solid #ff0000")
                             .css("border-right", "2px solid #ff0000");
-                        // 공백 관련
+                        // 빈값 관련
                         $("#addr-blank").css("display", "block");
                     } else {
                         $(".join-list-address").css("border", "1px solid #C7C8C9");
-                        // 공백 관련
+                        // 빈값 관련
                         $("#addr-blank").css("display", "none");
                     }
                 });
@@ -358,15 +358,15 @@
                             .css("border-left", "2px solid #ff0000")
                             .css("border-right", "2px solid #ff0000")
                             .css("border-bottom", "1px solid #C7C8C9");
-                        // 공백 관련
+                        // 빈값 관련
                         $("#addr-blank").css("display", "block");
                     } else {
                         $(".join-list-address").css("border", "1px solid #C7C8C9");
-                        // 공백 관련
+                        // 빈값 관련
                         $("#addr-blank").css("display", "none");
                     }
                 });
-                /* ========== 입력칸 관련 효과 & 공백 check end ========== */
+                /* ========== 입력칸 관련 효과 & 빈값 check end ========== */
 
 
                 /* ========== 회원가입 진행 ========== */
