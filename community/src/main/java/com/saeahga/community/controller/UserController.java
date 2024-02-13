@@ -313,8 +313,6 @@ public class UserController {
                     .userPw(passwordEncoder.encode(newUserPw))
                     .build();
 
-            System.out.println(user.getUserPw());
-
             // 새 비밀번호로 업데이트
             userService.updatePw(user);
 

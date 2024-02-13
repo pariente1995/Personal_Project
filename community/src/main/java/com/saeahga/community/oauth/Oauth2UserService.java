@@ -67,7 +67,6 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         String type = "USER";
         String useYn = "Y";
 
-        System.out.println(userId);
         // 사용자가 이미 소셜 로그인한 기록이 있는지 검사할 객체
         User user;
 
