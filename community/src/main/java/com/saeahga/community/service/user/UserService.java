@@ -28,5 +28,8 @@ public interface UserService {
     User findPw(User user);
 
     // 인증번호 생성 + 메일로 인증번호 전송
-    void submitCode(User user);
+    String submitCode(User user);
+
+    // 새 비밀번호 업데이트
+    void updatePw(User user);
 }

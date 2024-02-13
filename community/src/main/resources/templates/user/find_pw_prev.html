@@ -71,7 +71,7 @@
                                 "userId": userId,
                                 "userEmail": userEmail
                             },
-                            success: function (response) {
+                            success: function(response) {
                                 if(response.item.findPwMsg == "wrongId") {
                                     alert("존재하지 않는 아이디 입니다.");
                                 } else if(response.item.findPwMsg == "wrongEmail") {
@@ -112,37 +112,28 @@
                     }
 
                     let userId = $("#userId").val();
-                    let userEmail = $("#userEmail").val();
+                    let certificationNum = $("#certificationNum").val();
 
-                    if(validateEmail(userEmail)) {
-                        $.ajax({
-                            type: "post",
-                            url: "/user/findId",
-                            data: {
-                                "userId": userId,
-                                "userEmail": userEmail
-                            },
-                            success: function (obj) {
-                                // if(obj.item.findIdMsg == "infoOK") {
-                                //     $("#getUserIdList").val(JSON.stringify(obj.item.getUserIdList));
-                                //     console.log($("#getUserIdList").val());
-                                //
-                                //     $("#complete-find-pw-form").submit();
-                                //
-                                // } else if(obj.item.findIdMsg == "wrongNm") {
-                                //     alert("존재하지 않는 이름 입니다.");
-                                // } else if(obj.item.findIdMsg == "wrongEmail") {
-                                //     alert("이메일이 일치하지 않습니다.");
-                                // }
-                            },
-                            error: function(e) {
-                                console.log(e);
+                    $.ajax({
+                        type: "post",
+                        url: "/user/checkCertificationNum",
+                        data: {
+                            "certificationNum": certificationNum
+                        },
+                        success: function(response) {
+                            if(response.item.checkCodeMsg == "codeOk") {
+                                alert("인증번호 확인이 완료되었습니다.");
+
+                                // 새 비밀번호 설정 화면으로 이동
+                                location.href="/user/findPwNext?userId=" + userId;
+                            } else {
+                                alert("인증번호가 일치하지 않습니다.");
                             }
-                        })
-                    } else {
-                        alert("이메일 형식을 확인해 주세요.");
-                        return;
-                    }
+                        },
+                        error: function(e) {
+                            console.log(e);
+                        }
+                    })
                 });
             });
 

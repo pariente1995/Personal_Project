@@ -8,15 +8,18 @@ import com.saeahga.community.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 // @RequiredArgsConstructor 는 초기화 되지않은 final 필드나, @NonNull 이 붙은 필드에 대해 생성자를 생성해준다.
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
@@ -73,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
     // 인증번호 생성 + 메일로 인증번호 전송
     @Override
-    public void submitCode(User user) {
+    public String submitCode(User user) {
         // 인증번호 생성(8자리)
         char[] charSet = new char[]
                 { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -104,5 +107,13 @@ public class UserServiceImpl implements UserService {
 
         // 메일 전송 부분
         mailService.send(user.getUserEmail(), mailTitle, mailBody);
+
+        return certificationNum;
+    }
+
+    // 새 비밀번호 업데이트
+    @Override
+    public void updatePw(User user) {
+        userRepository.updatePw(user);
     }
 }

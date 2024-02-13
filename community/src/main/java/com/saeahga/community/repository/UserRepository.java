@@ -2,6 +2,7 @@ package com.saeahga.community.repository;
 
 import com.saeahga.community.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,4 +22,11 @@ public interface UserRepository extends JpaRepository<User, String> { // JpaRepo
 
     // 비밀번호 찾기(아이디와 이메일로 사용자 조회)
     Optional<User> findByUserIdAndUserEmail(@Param("userId") String userId, @Param("userEmail") String userEmail);
+
+    // 새 비밀번호 업데이트
+    @Modifying
+    @Query(value="UPDATE T_SAG_USER"
+             + "	 SET USER_PW = :#{#user.userPw}"
+             + "   WHERE USER_ID = :#{#user.userId}", nativeQuery=true)
+    void updatePw(@Param("user") User user);
 }

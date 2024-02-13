@@ -1,0 +1,103 @@
+#find-pw-next-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#find-pw-next-wrapper {
+    margin-top: 100px;
+    min-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 열(세로) 방향 배치 */
+    flex-direction: column;
+}
+
+#title-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title-wrapper h2 {
+    margin: 0;
+    color: #3F63BF;
+}
+
+#baby-image {
+    width: 50px;
+    margin-right: 5px;
+}
+
+#form-wrapper {
+    width: 420px;
+    height: 330px;
+    display: flex;
+    justify-content: center;
+    /* hr과 동일한 색상 */
+    border: 1px solid #C7C8C9;
+    border-radius: 5%;
+    margin-top: 20px;
+    padding-top: 50px;
+}
+
+#update-pw {
+    width: 360px;
+}
+
+#new-pw-wrapper, #new-pw-check-wrapper {
+    height: 50px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#new-pw-wrapper {
+    /* hr과 동일한 색상 */
+    border: 1px solid #C7C8C9;
+}
+
+#new-pw-check-wrapper {
+    /* hr과 동일한 색상 */
+    border-left: 1px solid #C7C8C9;
+    border-right: 1px solid #C7C8C9;
+    border-bottom: 1px solid #C7C8C9;
+}
+
+#new-pw-wrapper input::placeholder,
+#new-pw-check-wrapper input::placeholder {
+    color: #9E9E9E;
+}
+
+#new-pw-wrapper {
+    border-radius: 15px 15px 0 0;
+}
+
+#new-pw-check-wrapper {
+    border-radius: 0 0 15px 15px;
+}
+
+.find-image {
+    width: 30px;
+    margin-right: 10px;
+}
+
+#userPw, #userPwCheck {
+    width: 100%;
+    border: none;
+    /* input 클릭 시 생기는 기본 파란선 없앰 */
+    outline: none;
+}
+
+/* 설정하기 버튼, 취소 버튼 */
+#btn-update, #btn-cancel {
+    margin-top: 25px;
+    width: 100%;
+    height: 50px;
+    color: white;
+    background-color: #3F63BF;
+    font-size: 1.3em;
+    border: none;
+    border-radius: 15px;
+}

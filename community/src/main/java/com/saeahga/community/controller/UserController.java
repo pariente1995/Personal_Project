@@ -7,6 +7,7 @@ import com.saeahga.community.dto.ResponseDTO;
 import com.saeahga.community.dto.UserDTO;
 import com.saeahga.community.entity.User;
 import com.saeahga.community.service.user.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.DoubleStream;
 
 @RestController
 @RequestMapping("/user")
@@ -113,8 +115,8 @@ public class UserController {
             return ResponseEntity.ok().body(responseDTO);
         } catch(Exception e) {
             returnMap.put("joinMsg", "fail");
-            responseDTO.setErrorMessage(e.getMessage());
             responseDTO.setItem(returnMap);
+            responseDTO.setErrorMessage(e.getMessage());
 
             return ResponseEntity.badRequest().body(responseDTO);
         }
@@ -218,8 +220,8 @@ public class UserController {
 
     // 인증번호 전송
     @PostMapping("/submitCode")
-    public ResponseEntity<?> submitCode(UserDTO userDTO) {
-        ResponseDTO<Map<String, String>> response = new ResponseDTO<>();
+    public ResponseEntity<?> submitCode(UserDTO userDTO, HttpSession session) {
+        ResponseDTO<Map<String, String>> responseDTO = new ResponseDTO<>();
 
         try {
             User user = User.builder()
@@ -239,16 +241,94 @@ public class UserController {
                 returnMap.put("findPwMsg", "wrongEmail");
             } else {
                 // 인증번호 생성 부분 + 메일 전송
-                userService.submitCode(user);
+                String certificationNum = userService.submitCode(user);
+
+                // 세션에 인증번호 저장
+                session.setAttribute("certificationNum", certificationNum);
+
                 returnMap.put("findPwMsg", "submitCode");
             }
 
-            response.setItem(returnMap);
+            responseDTO.setItem(returnMap);
 
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.ok().body(responseDTO);
         } catch(Exception e) {
-            response.setErrorMessage(e.getMessage());
-            return ResponseEntity.badRequest().body(response);
+            responseDTO.setErrorMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    // 인증번호 확인
+    @PostMapping("/checkCertificationNum")
+    public ResponseEntity<?> checkCertificationNum(@RequestParam("certificationNum") String code, HttpSession session) {
+        ResponseDTO<Map<String, String>> responseDTO = new ResponseDTO<>();
+        Map<String, String> returnMap = new HashMap<String, String>();
+
+        // 세션에 저장되어 있는 발급된 인증번호
+        String sessionCode = (String)session.getAttribute("certificationNum");
+
+        // 화면의 인증번호와 세션의 인증번호 비교
+        try {
+            if(code.equals(sessionCode) && sessionCode != null) {
+                returnMap.put("checkCodeMsg", "codeOk");
+            } else {
+                returnMap.put("checkCodeMsg", "codeNo");
+            }
+
+            responseDTO.setItem(returnMap);
+
+            return ResponseEntity.ok().body(responseDTO);
+        } catch(Exception e) {
+            responseDTO.setErrorMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    // 새 비밀번호 설정 화면으로 이동
+    @GetMapping("/findPwNext")
+    public ModelAndView findPwNextView(@RequestParam("userId") String userId, HttpSession session) {
+        // 세션에 사용자 아이디 저장
+        session.setAttribute("userId", userId);
+        
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("user/find_pw_next");
+
+        return mv;
+    }
+
+    // 새 비빌번호 설정
+    @PostMapping("/updatePw")
+    public ResponseEntity<?> updatePw(@RequestParam("userPw") String newUserPw, HttpSession session) {
+        ResponseDTO<Map<String, String>> responseDTO = new ResponseDTO<>();
+        Map<String, String> returnMap = new HashMap<String, String>();
+
+        // 세션에 저장되어 있는 사용자 아이디
+        String userId = (String)session.getAttribute("userId");
+
+        // 새 비밀번호로 업데이트
+        try {
+            User user = User.builder()
+                    .userId(userId)
+                    .userPw(passwordEncoder.encode(newUserPw))
+                    .build();
+
+            System.out.println(user.getUserPw());
+
+            // 새 비밀번호로 업데이트
+            userService.updatePw(user);
+
+            returnMap.put("updateMsg", "updateOk");
+
+            responseDTO.setItem(returnMap);
+
+            return ResponseEntity.ok().body(responseDTO);
+        } catch(Exception e) {
+            returnMap.put("updateMsg", "updateNo");
+            responseDTO.setItem(returnMap);
+            responseDTO.setErrorMessage(e.getMessage());
+
+            return ResponseEntity.badRequest().body(responseDTO);
         }
     }
 }

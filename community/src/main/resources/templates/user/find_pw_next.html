@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-user}">
+
+<!-- head 영역 시작 -->
+<!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/find_pw_next.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            $(function() {
+                // 새 비밀번호 칸으로 포커스 이동 시 border 효과
+                $("#userPw").on("focus", function () {
+                    $("#new-pw-wrapper").css("border", "2px solid #3F63BF");
+                });
+
+                // 새 비밀번호 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userPw").on("blur", function () {
+                    $("#new-pw-wrapper").css("border", "1px solid #C7C8C9");
+                });
+
+                // 새 비밀번호 확인 칸으로 포커스 이동 시 border 효과
+                $("#userPwCheck").on("focus", function () {
+                    $("#new-pw-check-wrapper").css("border", "2px solid #3F63BF");
+                });
+
+                // 새 비밀번호 확인 칸에서 다른 곳으로 포커스 이동 시, 기존 상태로 원복
+                $("#userPwCheck").on("blur", function () {
+                    $("#new-pw-check-wrapper").css("border-top", "none")
+                        .css("border-left", "1px solid #C7C8C9")
+                        .css("border-right", "1px solid #C7C8C9")
+                        .css("border-bottom", "1px solid #C7C8C9");
+                });
+
+                // 설정하기 버튼 클릭 시
+                $("#btn-update").click(function () {
+                    let userPw = $("#userPw").val();
+                    let userPwCheck = $("#userPwCheck").val();
+
+                    // 비밀번호 유효성
+                    let pattern = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{9,}$/;
+
+                    if(!userPw) {
+                        alert("새 비밀번호를 입력하세요.");
+                        $("#userPw").focus();
+                        return;
+                    }
+
+                    if(!userPwCheck) {
+                        alert("새 비밀번호 확인을 입력하세요.");
+                        $("#userPwCheck").focus();
+                        return;
+                    }
+
+                    if(!pattern.test(userPw) || !pattern.test(userPwCheck)) {
+                        alert("비밀번호는 영문자, 숫자, 특수문자 조합의 9자리 이상만 사용 가능합니다.");
+                        return;
+                    }
+
+                    if(userPw != userPwCheck) {
+                        alert("비밀번호가 일치하지 않습니다.");
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "post",
+                        url: "/user/updatePw",
+                        data: {
+                            "userPw": userPw
+                        },
+                        success: function (response) {
+                            if (response.item.updateMsg == "updateOk") {
+                                alert("비밀번호 설정이 완료되었습니다.");
+
+                                // 로그인 화면으로 이동
+                                location.href = "/user/login";
+                            } else {
+                                alert("비밀번호 설정에 실패하였습니다.\n관리자에게 문의하세요.");
+                            }
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    });
+                });
+            });
+        </script>
+    </th:block>
+</head>
+<!-- head 영역 끝 -->
+
+<body>
+    <div layout:fragment="content">
+        <div id="find-pw-next-container">
+            <div id="find-pw-next-wrapper">
+                <div id="title-wrapper">
+                    <a th:href="@{/home/main}" id="home">
+                        <img id="baby-image" th:src="@{/images/baby.png}">
+                    </a>
+                    <h2>새 비밀번호 설정</h2>
+                </div>
+                <div id="form-wrapper">
+                    <div id="update-pw">
+                        <div id="new-pw-wrapper">
+                            <img class="find-image" th:src="@{/images/password.png}">
+                            <input type="password" name="userPw" id="userPw" required placeholder="새 비밀번호">
+                        </div>
+                        <div id="new-pw-check-wrapper">
+                            <img class="find-image" th:src="@{/images/password.png}">
+                            <input type="password" name="userPwCheck" id="userPwCheck" required placeholder="새 비밀번호 확인">
+                        </div>
+                        <button type="button" id="btn-update">설정하기</button>
+                        <button type="button" id="btn-cancel" onclick="location.href='/user/login';">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
