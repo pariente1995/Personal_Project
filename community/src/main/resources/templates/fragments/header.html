@@ -40,7 +40,7 @@
                         로그인 또는 회원가입</a>
                 </div>
                 <div class="justify-content-end" id="navbarsExample07" sec:authorize="isAuthenticated()">
-                    <a class="custom-nav-link" id="user-nav-link" th:href="@{/user/login}" sec:authentication="principal.username"></a>
+                    <a class="custom-nav-link" id="user-nav-link" th:href="@{/user/myInfo}" sec:authentication="principal.username"></a>
                     <a class="custom-nav-link" id="logout-nav-link" th:href="@{/user/logout}">로그아웃</a>
                 </div>
             </div>

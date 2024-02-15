@@ -5,11 +5,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saeahga.community.dto.ResponseDTO;
 import com.saeahga.community.dto.UserDTO;
+import com.saeahga.community.entity.CustomUserDetails;
 import com.saeahga.community.entity.User;
 import com.saeahga.community.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +31,8 @@ public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    // 테스트
+    /*
     @GetMapping("/getUser/{userId}")
     public Map<String, Object> getUser(@PathVariable String userId) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -36,6 +40,7 @@ public class UserController {
 
         return resultMap;
     }
+    */
 
     // 로그인 화면으로 이동
     @GetMapping("/login")
@@ -323,6 +328,65 @@ public class UserController {
             return ResponseEntity.ok().body(responseDTO);
         } catch(Exception e) {
             returnMap.put("updateMsg", "updateNo");
+            responseDTO.setItem(returnMap);
+            responseDTO.setErrorMessage(e.getMessage());
+
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    // 회원정보 수정 화면으로 이동
+    @GetMapping("/myInfo")
+    public ModelAndView myInfoView(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        // 사용자 아이디
+        String userId = customUserDetails.getUsername();
+
+        // 사용자 정보 조회
+        User user = userService.getUser(userId);
+
+        UserDTO userDTO = UserDTO.builder()
+                .userId(user.getUserId())
+                .userNm(user.getUserNm())
+                .userPhone(user.getUserPhone())
+                .userEmail(user.getUserEmail())
+                .userAddr(user.getUserAddr())
+                .build();
+
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("userInfo", userDTO);
+        mv.setViewName("user/my_info");
+
+        return mv;
+    }
+
+    // 회원정보 수정
+    @PostMapping("/updateMyInfo")
+    public ResponseEntity<?> updateMyInfo(UserDTO userDTO) {
+        ResponseDTO<Map<String, String>> responseDTO = new ResponseDTO<>();
+        Map<String, String> returnMap = new HashMap<String, String>();
+
+        // 회원정보 업데이트
+        try {
+            User user = User.builder()
+                    .userId(userDTO.getUserId())
+                    .userPw(passwordEncoder.encode(userDTO.getUserPw()))
+                    .userNm(userDTO.getUserNm())
+                    .userPhone(userDTO.getUserPhone())
+                    .userEmail(userDTO.getUserEmail())
+                    .userAddr(userDTO.getUserAddr())
+                    .userModfDate(LocalDateTime.now())
+                    .build();
+
+            userService.updateUserInfo(user);
+
+            returnMap.put("updateMyInfoMsg", "updateOk");
+
+            responseDTO.setItem(returnMap);
+
+            return ResponseEntity.ok().body(responseDTO);
+        } catch(Exception e) {
+            returnMap.put("updateMyInfoMsg", "updateNo");
             responseDTO.setItem(returnMap);
             responseDTO.setErrorMessage(e.getMessage());
 

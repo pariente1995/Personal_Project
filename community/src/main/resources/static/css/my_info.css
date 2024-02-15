@@ -1,0 +1,181 @@
+#my-info-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#my-info-wrapper {
+    width: 500px;
+    display: flex;
+    /* 열(세로) 방향 배치 */
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+#title-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title-wrapper h2 {
+    margin: 0;
+    color: #3F63BF;
+}
+
+#baby-image {
+    width: 50px;
+    margin-right: 5px;
+}
+
+#my-info-form {
+    margin-top: 20px;
+    display: flex;
+    /* 열(세로) 방향 배치 */
+    flex-direction: column;
+}
+
+.my-info-list-item {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+/* 아이디 */
+.my-info-list-id {
+    background-color: #E8E9EB;
+    /* hr과 동일한 색상 */
+    border: 1px solid #C7C8C9;
+    border-radius: 15px 15px 0 0;
+}
+
+#userId {
+    background-color: #E8E9EB;
+}
+
+/* 비밀번호 */
+.my-info-list-pw {
+    border-left: 1px solid #C7C8C9;
+    border-right: 1px solid #C7C8C9;
+    border-bottom: 1px solid #C7C8C9;
+    border-radius: 0 0 15px 15px;
+}
+
+#my-info-list-bottom {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* 이름 */
+.my-info-list-name {
+    border: 1px solid #C7C8C9;
+    border-radius: 15px 15px 0 0;
+}
+
+/* 휴대전화번호 */
+.my-info-list-phone {
+    border-bottom: 1px solid #C7C8C9;
+}
+
+/* 휴대전화번호, 이메일 */
+.my-info-list-phone, .my-info-list-mail {
+    border-left: 1px solid #C7C8C9;
+    border-right: 1px solid #C7C8C9;
+}
+
+/* 주소 */
+.my-info-list-address {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    /* 여유 공간이 없을 시, 줄바꿈 처리 */
+    flex-wrap: wrap;
+    padding-left: 15px;
+    border: 1px solid #C7C8C9;
+    border-radius: 0 0 15px 15px;
+}
+
+.my-info-list-address #userAddr1 {
+    border: none;
+    /* input 클릭 시 생기는 테두리 없앰 */
+    outline: none;
+}
+
+#userAddr1::placeholder {
+    font-size: 1.1em;
+    color: #9E9E9E;
+}
+
+.my-info-list-address #userAddr2 {
+    padding-left: 45px;
+}
+
+.my-info-image {
+    width: 30px;
+    height: 30px;
+    margin-right: 13px;
+}
+
+.my-info-pw-image, .my-info-phone-image {
+    width: 27px;
+    height: 27px;
+    margin-right: 16px;
+}
+
+.my-info-mail-image, .my-info-address-image {
+    width: 26px;
+    height: 26px;
+    margin-right: 17px;
+}
+
+.my-info-input {
+    border: none;
+    cursor: pointer;
+    /* input 클릭 시 생기는 테두리 없앰 */
+    outline: none;
+}
+
+.my-info-input::placeholder {
+    font-size: 1.1em;
+    color: #9E9E9E;
+}
+
+/* 주소 찾기 버튼 */
+.btn-addr-check {
+    width: 90px;
+    height: 35px;
+    margin-left: 20px;
+    background-color: #3F63BF;
+    color: white;
+    border: none;
+    border-radius: 15px;
+}
+
+#btn-wrapper {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-update-my-info {
+    width: 350px;
+    height: 50px;
+    color: white;
+    background-color: #3F63BF;
+    font-size: 1.3em;
+    border: none;
+    border-radius: 15px;
+}
+
+#my-info-list-top {
+    margin-bottom: 10px;
+}
+
+.validation-result {
+    display: none;
+    padding-left: 25px;
+    color: #ff0000;
+    font-size: 0.9em;
+}

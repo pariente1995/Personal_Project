@@ -8,9 +8,8 @@ import java.util.Map;
 public interface UserService {
     // Repository 를 사용할 경우 매개변수는 Entity 로 지정해야 한다.
 
-    // 테스트
     // 사용자 조회
-    Map<String, Object> getUser(String userId);
+    User getUser(String userId);
 
     // 아이디 중복 체크
     User idCheck(User user);
@@ -32,4 +31,7 @@ public interface UserService {
 
     // 새 비밀번호 업데이트
     void updatePw(User user);
+
+    // 회원정보 수정
+    void updateUserInfo(User user);
 }

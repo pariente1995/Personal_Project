@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +30,16 @@ public interface UserRepository extends JpaRepository<User, String> { // JpaRepo
              + "	 SET USER_PW = :#{#user.userPw}"
              + "   WHERE USER_ID = :#{#user.userId}", nativeQuery=true)
     void updatePw(@Param("user") User user);
+
+    // 회원정보 수정
+    @Modifying
+    @Query(value="UPDATE T_SAG_USER"
+            + "      SET  USER_PW = :#{#user.userPw}"
+            + "         , USER_NM = :#{#user.userNm}"
+            + "         , USER_PHONE = :#{#user.userPhone}"
+            + "         , USER_EMAIL = :#{#user.userEmail}"
+            + "         , USER_ADDR = :#{#user.userAddr}"
+            + "         , USER_MODF_DATE = :#{#user.userModfDate}"
+            + "    WHERE USER_ID = :#{#user.userId}", nativeQuery=true)
+    void updateUserInfo(@Param("user") User user);
 }

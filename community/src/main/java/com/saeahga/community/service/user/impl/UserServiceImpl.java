@@ -31,9 +31,10 @@ public class UserServiceImpl implements UserService {
 //        this.userMapper = userMapper;
 //    }
 
+    // 사용자 조회
     @Override
-    public Map<String, Object> getUser(String userId) {
-        return userMapper.getUser(userId);
+    public User getUser(String userId) {
+        return userRepository.findById(userId).get();
     }
 
     // 아이디 중복 체크
@@ -115,5 +116,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePw(User user) {
         userRepository.updatePw(user);
+    }
+
+    // 회원정보 수정
+    @Override
+    public void updateUserInfo(User user) {
+        userRepository.updateUserInfo(user);
     }
 }
