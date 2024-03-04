@@ -6,14 +6,12 @@ import com.saeahga.community.repository.UserRepository;
 import com.saeahga.community.service.mail.MailService;
 import com.saeahga.community.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
