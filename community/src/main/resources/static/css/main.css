@@ -28,6 +28,18 @@
     margin-bottom: 50px;
 }
 
+#main-news-list #main-news-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#main-news-title span {
+    margin-top: 8px;
+    margin-right: 5%;
+    font-size: 0.9em;
+}
+
 .main-news-list-items {
     width: 100%;
     padding-right: 5%;

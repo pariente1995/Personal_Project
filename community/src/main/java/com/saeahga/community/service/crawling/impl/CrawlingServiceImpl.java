@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class CrawlingServiceImpl implements CrawlingService {
@@ -53,8 +54,9 @@ public class CrawlingServiceImpl implements CrawlingService {
         try {
             driver.get(baseUrl); // 해당 url 로 접속
 
-            // 브라우저 로딩될때까지 잠시 기다림.
-            Thread.sleep(500);
+            // 웹페이지 전체가 로딩될 때까지 최대 3초 기다림
+            // 웹페이지 로딩이 완료되면 바로 다음 명령어를 실행하여 실행 시간 단축
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
             /*
                 검색 옵션
@@ -110,7 +112,7 @@ public class CrawlingServiceImpl implements CrawlingService {
             for(int i=0; i<14; i++) {
                 // 550px 만큼 아래로 스크롤
                 ((JavascriptExecutor)driver).executeScript("window.scrollBy(0,550)");
-                Thread.sleep(500);
+                Thread.sleep(100);
             }
 
             // 전체의 뉴스 아이디 리스트(이미지가 없는 뉴스도 포함)
@@ -128,12 +130,27 @@ public class CrawlingServiceImpl implements CrawlingService {
             // 뉴스 이미지 경로 리스트(이미지가 있는 뉴스들)
             List<WebElement> newsImgPathList = driver.findElements(By.cssSelector(".news_contents .dsc_thumb .thumb"));
 
+
             // 뉴스 아이디에 해당하는 이미지 경로 데이터 담기(이미지가 있는 뉴스의 이미지 경로)
-            Map<String, String> newsImgMap = new HashMap<>();
+            Map<String, List<String>> newsImgMap = new HashMap<>();
 
             for(WebElement ele : newsImgPathList) {
-                // newsId, newsImgPath
-                newsImgMap.put(ele.findElement(By.xpath("ancestor::li")).getAttribute("id"), ele.getAttribute("src"));
+                List<String> imgPathInfo = new ArrayList<>();
+
+                // 뉴스 이미지 경로
+                imgPathInfo.add(ele.getAttribute("src"));
+
+                /*
+                    네이버 썸네일의 경우 스크롤 위치에 따라 이미지가 로드되며,
+                    그 이전에는 src 속성에 "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 의
+                    empty 값이 할당된다.
+                    따라서 크롤링 시 이미지 경로가 empty 값과 같다면, data-lazysrc 속성값으로 이미지 경로를 셋팅해주어야 하기에
+                    함께 담아준다.
+                */
+                imgPathInfo.add(ele.getAttribute("data-lazysrc"));
+                
+                // newsId에 해당하는 이미지 경로
+                newsImgMap.put(ele.findElement(By.xpath("ancestor::li")).getAttribute("id"), imgPathInfo);
             }
 
 
@@ -141,11 +158,17 @@ public class CrawlingServiceImpl implements CrawlingService {
                 크롤링한 뉴스 리스트 담기(최대 30개만)
                 - 30개가 크롤링되지 않았다면 크롤링한 개수만큼만 담김
             */
-            for(int i=0; i<newsIdList.size(); i++) {
+            int cnt = 30;
+
+            if(newsIdList.size() < 30) {
+                cnt = newsIdList.size();
+            }
+
+            for(int i=0; i<cnt; i++) {
                 NewsCrawlingDTO newsCrawlingDTO = NewsCrawlingDTO.builder()
                         .newsId(newsIdList.get(i).getAttribute("id"))
                         .newsTitle(newsTitleList.get(i).getAttribute("title"))
-                        // 50자까지만 자르기
+                        // 뉴스 내용 50자까지만 자르기
                         .newsDsc(newsDscAndLinkList.get(i).getText().substring(0, 50))
                         .newsLink(newsDscAndLinkList.get(i).getAttribute("href"))
                         .newsMedia(newsMediaList.get(i).getText().replace("언론사 선정", ""))
@@ -162,19 +185,21 @@ public class CrawlingServiceImpl implements CrawlingService {
 
                 따라서, 이미지가 있는 뉴스만 이미지 경로를 셋팅해준다.
             */
+            // 네이버 이미지 src 속성의 empty 값
+            String emptySrc = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
             for(NewsCrawlingDTO dto : returnNewsCrawlingList) {
                 String newsId = dto.getNewsId();
 
                 if(newsImgMap.containsKey(newsId)) {
-                    dto.setNewsImgPath(newsImgMap.get(newsId));
-                } else {
+                    if(newsImgMap.get(newsId).get(0).equals(emptySrc)) { // 스크롤되지 않아 뉴스 이미지 경로가 empty 값으로 셋팅된 경우
+                        dto.setNewsImgPath(newsImgMap.get(newsId).get(1));
+                    } else {
+                        dto.setNewsImgPath(newsImgMap.get(newsId).get(0));
+                    }
+                } else { // 이미지가 없는 뉴스일 경우
                     dto.setNewsImgPath("no img");
                 }
-            }
-
-            for(int i=0; i<returnNewsCrawlingList.size(); i++) {
-                System.out.print(i + " ");
-                System.out.println(returnNewsCrawlingList.get(i));
             }
         } catch(Exception e) {
             e.printStackTrace();
