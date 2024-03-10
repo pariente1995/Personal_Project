@@ -33,6 +33,9 @@
                         $("#news-view-more .toggle-img").attr("src", "/images/down.png");
                         $(this).children("span").text("뉴스 더보기");
                         $(this).data("toggle-yn", "N");
+
+                        // 페이지 최상단으로 이동
+                        window.scrollTo(0, 0);
                     }
                 });
             });
@@ -94,30 +97,15 @@
                 </div>
                 <!-- 출산 혜택 정보 블로그 영역-->
                 <div id="main-blog-list">
-                    <h5>출산 혜택 정보 블로그</h5>
+                    <h5>출산 혜택 정보</h5>
                     <hr>
-                    <div id="blog-view-more">
-                        <a href="#">더보기 ></a>
-                    </div>
-                    <div class="main-blog-list-items">
-                        <a href="#">2024년 부모급여 양육 영아 아동수당 출산장려금 출산혜택 지원금</a>
-                        <span class="blog-name">육아인플루언서 현둥</span>
-                    </div>
-                    <div class="main-blog-list-items">
-                        <a href="#">2024 출산혜택 지원금 첫만남이용권 사용처 신청 방법 지급 시기 확인</a>
-                        <span class="blog-name">목포맘들의 수다방!!!</span>
-                    </div>
-                    <div class="main-blog-list-items">
-                        <a href="#">2023년 2024년 서울시 출산지원금 임신 출산 혜택</a>
-                        <span class="blog-name">감귤 성장일기</span>
-                    </div>
-                    <div class="main-blog-list-items">
-                        <a href="#">2024년 출산지원금 혜택 총정리 첫만남이용권 부모급여</a>
-                        <span class="blog-name">까치맘</span>
-                    </div>
-                    <div class="main-blog-list-items">
-                        <a href="#">안성 셋째 출산혜택!</a>
-                        <span class="blog-name">스리링</span>
+                    <!-- 더보기 부분 주석 처리_240307 -->
+<!--                    <div id="blog-view-more">-->
+<!--                        <a href="#">더보기 ></a>-->
+<!--                    </div>-->
+                    <div class="main-blog-list-items" th:each="blog : ${getBenefitCrawlingList}">
+                        <a th:href="${blog.benefitLink}" th:text="${blog.benefitTitle}" target="_blank"></a>
+                        <span class="blog-name" th:text="${blog.benefitBlogNm}"></span>
                     </div>
                 </div>
             </div>

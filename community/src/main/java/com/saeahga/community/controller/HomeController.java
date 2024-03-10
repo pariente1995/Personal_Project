@@ -1,17 +1,17 @@
 package com.saeahga.community.controller;
 
+import com.saeahga.community.dto.BenefitCrawlingDTO;
 import com.saeahga.community.dto.NewsCrawlingDTO;
 import com.saeahga.community.service.crawling.CrawlingService;
 import lombok.RequiredArgsConstructor;
-import org.openqa.selenium.WebElement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,24 +22,35 @@ import java.util.Locale;
 public class HomeController {
     private final CrawlingService crawlingService;
 
+    // 메인 화면으로 이동 및 뉴스&블로그 크롤링 조회
     @GetMapping("/main")
     public ModelAndView moveMain() {
         // 현재일자
-        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.now();
 
-        String year = Integer.toString(currentDate.getYear()); // 년
-        String month = Integer.toString(currentDate.getMonthValue()); // 월
-        String day = Integer.toString(currentDate.getDayOfMonth()); // 일
-        String dayOfWeek = currentDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN); // 요일
-        String newsDate = month + "." + day + "(" + dayOfWeek + ")";
+        // 현재일자 형식 셋팅(ex. 2024.03.10)
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY.MM.dd");
+        String currentDate = today.format(dateTimeFormatter);
+
+        String month = Integer.toString(today.getMonthValue()); // 월
+        String day = Integer.toString(today.getDayOfMonth()); // 일
+        String dayOfWeek = today.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN); // 요일
+
+        // 뉴스일자
+        String newsDate = String.format("%s.%s(%s)", month, day, dayOfWeek);
 
         // 화면으로 전달할 뉴스 리스트
         // 현재일자로 크롤링하여 뉴스 리스트 조회
-        List<NewsCrawlingDTO> getNewsCrawlingList = crawlingService.getNewsCrawlingList(year, month, day);
+        List<NewsCrawlingDTO> getNewsCrawlingList = crawlingService.getNewsCrawlingList(currentDate);
+
+        // 화면으로 전달할 출산 혜택 정보 블로그 리스트
+        // 현재연도로 크롤링하여 출산 혜택 정보 블로그 리스트 조회
+        List<BenefitCrawlingDTO> getBenefitCrawlingList = crawlingService.getBenefitCrawlingList(currentDate);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("main");
         mv.addObject("getNewsCrawlingList", getNewsCrawlingList);
+        mv.addObject("getBenefitCrawlingList", getBenefitCrawlingList);
         mv.addObject("newsDate", newsDate);
 
         return mv;
