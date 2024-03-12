@@ -96,6 +96,18 @@
     font-size: 0.9em;
 }
 
+/* 수집된 뉴스가 없을 경우 표시될 영역 */
+#no-news-list-wrapper {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+}
+
+#no-news-list-wrapper span {
+    color: red;
+    font-size: 1.1em;
+}
+
 #news-view-more-wrapper {
     display: flex;
     justify-content: center;
@@ -161,6 +173,17 @@
     font-size: 0.8em;
 }
 
+/* 수집된 출산 혜택 정보 블로그가 없을 경우 표시될 영역 */
+#no-blog-list-wrapper span {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+}
+
+#no-blog-list-wrapper span {
+    color: red;
+    font-size: 1.1em;
+}
 
 /* === 국내 결혼 중개업 영역 === */
 #main-broker-list {

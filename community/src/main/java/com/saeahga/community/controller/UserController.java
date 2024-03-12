@@ -208,7 +208,7 @@ public class UserController {
 
         ModelAndView mv = new ModelAndView();
 
-        mv.setViewName("user/find_id_next.html");
+        mv.setViewName("user/find_id_next");
         mv.addObject("userIdList", userIdList);
         return mv;
     }

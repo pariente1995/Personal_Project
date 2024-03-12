@@ -1,0 +1,65 @@
+#mom-cafe-list-container {
+    min-width: 1450px;
+    min-height: 600px;
+    margin: 0 8%;
+}
+
+/* 맘카페 리스트 영역 */
+#mom-cafe-list-wrapper {
+    display: flex;
+    /* 요소들의 총 넓이가 부모 넓이보다 클 때, 이 요소들을 다음 줄에 이어서 나열해줌 */
+    flex-wrap: wrap;
+    padding: 0 2%;
+}
+
+.mom-cafe-list-items {
+    width: 250px;
+    height: 250px;
+    margin: 10px 10px;
+    padding: 10px 10px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.mom-cafe-list-items:hover {
+    background-color: #F0F5FE;
+}
+
+.mom-cafe-thumb {
+    margin-bottom: 10px;
+}
+
+.mom-cafe-info {
+    height: 100px;
+    /* 영역을 넘어가도 줄바꿈 되지 않게 */
+    white-space: nowrap;
+    overflow: hidden;
+    /* 말줄임 표시 */
+    text-overflow: ellipsis;
+}
+
+/* 맘카페 링크 */
+.mom-cafe-info .mom-cafe-link {
+    text-decoration: none;
+}
+
+/* 맘카페 썸네일 */
+.mom-cafe-link .mom-cafe-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50px;
+}
+
+/* 맘카페 제목 */
+.mom-cafe-link .mom-cafe-title {
+    font-size: 1.1em;
+    color: #3F63BF;
+}
+
+/* 맘카페 설명 */
+.mom-cafe-link .mom-cafe-dsc {
+    white-space: normal;
+    margin: 0;
+    font-size: 0.8em;
+    color: #9E9E9E;
+}

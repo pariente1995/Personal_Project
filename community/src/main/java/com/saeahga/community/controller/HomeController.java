@@ -47,7 +47,9 @@ public class HomeController {
         // 현재연도로 크롤링하여 출산 혜택 정보 블로그 리스트 조회
         List<BenefitCrawlingDTO> getBenefitCrawlingList = crawlingService.getBenefitCrawlingList(currentDate);
 
+
         ModelAndView mv = new ModelAndView();
+
         mv.setViewName("main");
         mv.addObject("getNewsCrawlingList", getNewsCrawlingList);
         mv.addObject("getBenefitCrawlingList", getBenefitCrawlingList);

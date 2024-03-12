@@ -72,7 +72,7 @@
                     </div>
 
                     <!-- 추가된 저출산 뉴스 리스트 영역 -->
-                    <div id="addition-news-list-wrapper" style="display: none;">
+                    <div id="addition-news-list-wrapper" style="display: none;" th:if="${#lists.size(getNewsCrawlingList) > 5}">
                         <div class="main-news-list-items" th:each="news : ${getNewsCrawlingList}" th:if="${4 < newsStat.index && newsStat.index < 10}">
                             <div class="main-news-list-img">
                                 <a th:href="${news.newsLink}" target="_blank">
@@ -88,7 +88,13 @@
                             <hr>
                         </div>
                     </div>
-                    <div id="news-view-more-wrapper">
+
+                    <!-- 수집된 뉴스가 없을 경우 -->
+                    <div id="no-news-list-wrapper" th:if="${#lists.size(getNewsCrawlingList) == 0}">
+                        <span>수집된 '저출산' 뉴스가 없습니다.</span>
+                    </div>
+
+                    <div id="news-view-more-wrapper" th:if="${#lists.size(getNewsCrawlingList) > 5}">
                         <div id="news-view-more" data-toggle-yn="N">
                             <span>뉴스 더보기</span>
                             <img th:src="@{/images/down.png}" class="toggle-img">
@@ -103,9 +109,13 @@
 <!--                    <div id="blog-view-more">-->
 <!--                        <a href="#">더보기 ></a>-->
 <!--                    </div>-->
-                    <div class="main-blog-list-items" th:each="blog : ${getBenefitCrawlingList}">
+                    <div class="main-blog-list-items" th:each="blog : ${getBenefitCrawlingList}" th:if="${#lists.size(getBenefitCrawlingList) != 0}">
                         <a th:href="${blog.benefitLink}" th:text="${blog.benefitTitle}" target="_blank"></a>
                         <span class="blog-name" th:text="${blog.benefitBlogNm}"></span>
+                    </div>
+                    <!-- 수집된 출산 혜택 정보 블로그가 없을 경우 -->
+                    <div id="no-blog-list-wrapper" th:unless="${#lists.size(getBenefitCrawlingList) != 0}">
+                        <span>수집된 '출산 혜택' 정보가 없습니다.</span>
                     </div>
                 </div>
             </div>
