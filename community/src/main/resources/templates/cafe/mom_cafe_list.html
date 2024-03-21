@@ -13,7 +13,15 @@
     <th:block layout:fragment="script">
         <script th:inline="javascript">
             $(function() {
+                /*
+                    메뉴 선택 효과
+                    - '맘카페' 메뉴 선택 시
+                */
+                // 이전에 선택된 메뉴가 있다면 효과 초기화
+                $(".nav-item").css("border-bottom-color", "white");
 
+                // 밑줄 표현
+                $(".header-bottom-ul .nav-item:nth-child(3)").css("border-bottom-color", "#3F63BF");
             });
         </script>
     </th:block>
@@ -23,203 +31,49 @@
 <body>
 <div layout:fragment="content">
     <div id="mom-cafe-list-container">
+        <!-- 맘카페 건수 -->
+        <div id="mom-cafe-count-wrapper">
+            <p id="mom-cafe-count">
+                <span th:text="${'검색결과: ' + getPagination.totalElements + '건'}"></span>
+            </p>
+        </div>
         <!-- 맘카페 리스트 영역 -->
         <div id="mom-cafe-list-wrapper">
-            <div class="mom-cafe-list-items">
+            <div class="mom-cafe-list-items" th:each="cafe : ${getMomCafeCrawlingList}">
                 <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test1.jpg}" class="mom-cafe-img">
+                    <a th:href="${cafe.momCafeLink}" class="mom-cafe-link" target="_blank">
+                        <img th:src="${cafe.momCafeImgPath}" class="mom-cafe-img">
                     </a>
                 </div>
                 <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">예비,육아 맘님들의 무료선물</span>
-                        <p class="mom-cafe-dsc">신청클릭! 산모교실,임신박스,육아박스,무료경품지원!</p>
+                    <a th:href="${cafe.momCafeLink}" class="mom-cafe-link" target="_blank">
+                        <span class="mom-cafe-title" th:text="${cafe.momCafeTitle}"></span>
+                        <p class="mom-cafe-dsc" th:text="${cafe.momCafeDsc}"></p>
                     </a>
                 </div>
             </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test2.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">서울맘카페, 회원 40만명</span>
-                        <p class="mom-cafe-dsc">서울 대형카페. 육아, 교육, 재테크, 부동산, 창업, 부업, 중고장터, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test3.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">인천경기맘, 회원 34만명</span>
-                        <p class="mom-cafe-dsc">경기맘 육아, 교육, 재테크, 부동산, 창업, 부업, 대형카페, 플리마켓, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test4.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">맘스카페오투오엄마들의 필수 커뮤니티</span>
-                        <p class="mom-cafe-dsc">맘스카페오투오 맘커뮤니티공간, 유튜브, 이벤트, 중고장터 다양한서비스 제공</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test1.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">예비,육아 맘님들의 무료선물</span>
-                        <p class="mom-cafe-dsc">신청클릭! 산모교실,임신박스,육아박스,무료경품지원!</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test2.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">서울맘카페, 회원 40만명</span>
-                        <p class="mom-cafe-dsc">서울 대형카페. 육아, 교육, 재테크, 부동산, 창업, 부업, 중고장터, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test3.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">인천경기맘, 회원 34만명</span>
-                        <p class="mom-cafe-dsc">경기맘 육아, 교육, 재테크, 부동산, 창업, 부업, 대형카페, 플리마켓, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test4.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">맘스카페오투오엄마들의 필수 커뮤니티</span>
-                        <p class="mom-cafe-dsc">대구 대형카페. 육아, 교육, 재테크, 부동산, 창업, 부업, 중고장터, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test3.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">인천경기맘, 회원 34만명</span>
-                        <p class="mom-cafe-dsc">경기맘 육아, 교육, 재테크, 부동산, 창업, 부업, 대형카페, 플리마켓, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test4.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">맘스카페오투오엄마들의 필수 커뮤니티</span>
-                        <p class="mom-cafe-dsc">대구 대형카페. 육아, 교육, 재테크, 부동산, 창업, 부업, 중고장터, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test3.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">인천경기맘, 회원 34만명</span>
-                        <p class="mom-cafe-dsc">경기맘 육아, 교육, 재테크, 부동산, 창업, 부업, 대형카페, 플리마켓, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test4.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">맘스카페오투오엄마들의 필수 커뮤니티</span>
-                        <p class="mom-cafe-dsc">대구 대형카페. 육아, 교육, 재테크, 부동산, 창업, 부업, 중고장터, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test3.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">인천경기맘, 회원 34만명</span>
-                        <p class="mom-cafe-dsc">경기맘 육아, 교육, 재테크, 부동산, 창업, 부업, 대형카페, 플리마켓, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test4.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">맘스카페오투오엄마들의 필수 커뮤니티</span>
-                        <p class="mom-cafe-dsc">대구 대형카페. 육아, 교육, 재테크, 부동산, 창업, 부업, 중고장터, 맘카페</p>
-                    </a>
-                </div>
-            </div>
-            <div class="mom-cafe-list-items">
-                <div class="mom-cafe-thumb">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <img th:src="@{/images/test1.jpg}" class="mom-cafe-img">
-                    </a>
-                </div>
-                <div class="mom-cafe-info">
-                    <a href="#" class="mom-cafe-link" target="_blank">
-                        <span class="mom-cafe-title">예비,육아 맘님들의 무료선물</span>
-                        <p class="mom-cafe-dsc">신청클릭! 산모교실,임신박스,육아박스,무료경품지원!</p>
-                    </a>
-                </div>
-            </div>
+        </div>
+
+        <!-- 페이지네이션 영역 -->
+        <div id="mom-cafe-page-wrapper">
+            <ul class="mom-cafe-pagination" th:if="${getPagination.totalElements > 0}"
+                                            th:with="pageNumber = ${getPagination.pageNumber},
+												     pageRange = ${getPagination.pageRange},
+												     totalPages = ${getPagination.totalPages},
+												     startPage = ${T(java.lang.Math).floor((pageNumber - 1) / pageRange) * pageRange + 1},
+												     tempEndPage = ${startPage + pageRange - 1},
+												     endPage = ${tempEndPage > totalPages ? totalPages : tempEndPage}">
+                <li class="mom-cafe-pagination-btn" th:if="${pageNumber > 1}">
+                    <!-- ex) /cafe/mom?pageNo=1 -->
+                    <a th:href="@{/cafe/mom(pageNo=${pageNumber - 1})}" class="prev">&lt</a>
+                </li>
+                <li class="mom-cafe-pagination-btn" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:href="@{/cafe/mom(pageNo=${page})}" th:text="${page}"></a>
+                </li>
+                <li class="mom-cafe-pagination-btn" th:if="${pageNumber < totalPages}">
+                    <a th:href="@{/cafe/mom(pageNo=${pageNumber + 1})}" class="next">&gt</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

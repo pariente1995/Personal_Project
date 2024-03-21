@@ -1,7 +1,9 @@
 package com.saeahga.community.service.crawling.impl;
 
 import com.saeahga.community.dto.BenefitCrawlingDTO;
+import com.saeahga.community.dto.MomCafeCrawlingDTO;
 import com.saeahga.community.dto.NewsCrawlingDTO;
+import com.saeahga.community.dto.PageDTO;
 import com.saeahga.community.service.crawling.CrawlingService;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -158,5 +161,102 @@ public class CrawlingServiceImpl implements CrawlingService {
         }
 
         return returnBenefitCrawlingList;
+    }
+
+    // 페이지별 맘카페 리스트 크롤링
+    @Override
+    public Map<String, Object> getMomCafeCrawlingList(int pageNo) {
+        // 맘카페 크롤링 리스트 + 페이지네이션 처리 관련 map
+        Map<String, Object> returnMomCafeMap = new HashMap<>();
+
+        // 맘카페 크롤링 결과 리스트
+        List<MomCafeCrawlingDTO> momCafeCrawlingDTOList = new ArrayList<>();
+        // 맘카페 총 검색 건수
+        int totElements = 0;
+
+        // 크롤링할 사이트의 URL
+        String baseUrl = "https://ad.search.naver.com/search.naver?where=ad&sm=svc_nrs&query=%EB%A7%98%EC%B9%B4%ED%8E%98&referenceId=iQ6Eldqo1LVssexHCfGssssssVZ-301309&bucketTest=AD-PWL-SITURL&bucket=0&pagingIndex=";
+
+        // 실제 요청 URL
+        String requestUrl = baseUrl + pageNo;
+
+        try {
+            // === 맘카페 총 검색 건수 & 총 페이지 수 구하기 START ===
+            int tempPageNo = 1;
+
+            while(true) {
+                // 페이지 URL
+                String pageUrl = baseUrl + tempPageNo;
+
+                // 페이지네이션 처리를 위한 Jsoup 커넥션 생성
+                Connection connPage = Jsoup.connect(pageUrl);
+
+                // pageUrl 의 내용을 HTML Document 객체로 가져온다.
+                Document docs = connPage.get();
+
+                // 해당 페이지에 대한 맘카페 리스트
+                Elements momCafeList = docs.select(".lst_type .lst");
+
+                // 해당 페이지의 맘카페 건수 더함
+                if(momCafeList.size() != 0) {
+                    totElements += momCafeList.size();
+                    tempPageNo++;
+                } else {
+                    break;
+                }
+            }
+
+            // 맘카페 총 페이지 수
+            int totPages = totElements/25 > 0 ? (totElements/25) + 1 : 1;
+
+            // === 맘카페 총 검색 건수 & 총 페이지 수 구하기 END ===
+
+            // Jsoup 커넥션 생성
+            Connection conn = Jsoup.connect(requestUrl);
+
+            // requestUrl 의 내용을 HTML Document 객체로 가져온다.
+            Document docs = conn.get();
+
+            // 맘카페 제목 & 링크 리스트
+            Elements momCafeTitleAndLinkList = docs.select(".info_wrap .tit_wrap");
+
+            // 맘카페 설명 리스트
+            Elements momCafeDscList = docs.select(".desc_area .link_desc");
+
+            // 맘카페 이미지 경로 리스트
+            Elements momCafeImgPathList = docs.select(".ad_thumb .image");
+
+
+            // 크롤링한 맘카페 리스트 담기
+            for(int i=0; i<momCafeTitleAndLinkList.size(); i++) {
+                MomCafeCrawlingDTO momCafeCrawlingDTO = MomCafeCrawlingDTO.builder()
+                        .momCafeTitle(momCafeTitleAndLinkList.get(i).text())
+                        .momCafeDsc(momCafeDscList.get(i).text())
+                        .momCafeLink(momCafeTitleAndLinkList.get(i).attr("href"))
+                        .momCafeImgPath(momCafeImgPathList.get(i).attr("src"))
+                        .build();
+
+                momCafeCrawlingDTOList.add(momCafeCrawlingDTO);
+            }
+
+            // 페이지네이션 처리 관련 데이터 담기
+            PageDTO pageDTO = PageDTO.builder()
+                    .totalElements(totElements)
+                    .pageNumber(pageNo)
+                    .pageRange(5)
+                    .totalPages(totPages)
+                    .build();
+
+            // 페이지 리스트 범위는 최대 10까지만 설정되도록
+            if(pageDTO.getPageRange() > 10)
+                pageDTO.setPageRange(10);
+
+            returnMomCafeMap.put("momCafeCrawlingDTOList", momCafeCrawlingDTOList);
+            returnMomCafeMap.put("pageDTO", pageDTO);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return returnMomCafeMap;
     }
 }
