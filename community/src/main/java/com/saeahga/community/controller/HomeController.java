@@ -1,7 +1,9 @@
 package com.saeahga.community.controller;
 
 import com.saeahga.community.dto.BenefitCrawlingDTO;
+import com.saeahga.community.dto.DmstMrgBrkDTO;
 import com.saeahga.community.dto.NewsCrawlingDTO;
+import com.saeahga.community.service.api.ApiService;
 import com.saeahga.community.service.crawling.CrawlingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class HomeController {
     private final CrawlingService crawlingService;
+    private final ApiService apiService;
 
     // 메인 화면으로 이동 및 뉴스&블로그 크롤링 조회
     @GetMapping("/main")
@@ -39,20 +42,34 @@ public class HomeController {
         // 뉴스일자
         String newsDate = String.format("%s.%s(%s)", month, day, dayOfWeek);
 
-        // 화면으로 전달할 뉴스 리스트
-        // 현재일자로 크롤링하여 뉴스 리스트 조회
+        /*
+            1. 화면으로 전달할 뉴스 리스트
+            - 현재일자로 크롤링하여 뉴스 리스트 조회
+        */
         List<NewsCrawlingDTO> getNewsCrawlingList = crawlingService.getNewsCrawlingList(currentDate);
 
-        // 화면으로 전달할 출산 혜택 정보 블로그 리스트
-        // 현재연도로 크롤링하여 출산 혜택 정보 블로그 리스트 조회
+        /*
+            2. 화면으로 전달할 출산 혜택 정보 블로그 리스트
+            - 현재연도로 크롤링하여 출산 혜택 정보 블로그 리스트 조회
+        */
         List<BenefitCrawlingDTO> getBenefitCrawlingList = crawlingService.getBenefitCrawlingList(currentDate);
 
+        /*
+            3. 화면으로 전달할 국내 결혼 중개업 리스트
+            - 5개만 조회
+        */
+        List<DmstMrgBrkDTO> getDmstMrgBrkList = apiService.dataDmstMrgBrkAPI(1, 5);
+
+        for(int i=0; i< getDmstMrgBrkList.size(); i++) {
+            System.out.println(getDmstMrgBrkList.get(i));
+        }
 
         ModelAndView mv = new ModelAndView();
 
         mv.setViewName("main");
         mv.addObject("getNewsCrawlingList", getNewsCrawlingList);
         mv.addObject("getBenefitCrawlingList", getBenefitCrawlingList);
+        mv.addObject("getDmstMrgBrkList", getDmstMrgBrkList);
         mv.addObject("newsDate", newsDate);
 
         return mv;

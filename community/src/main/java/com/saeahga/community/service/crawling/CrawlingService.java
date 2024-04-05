@@ -1,7 +1,6 @@
 package com.saeahga.community.service.crawling;
 
 import com.saeahga.community.dto.BenefitCrawlingDTO;
-import com.saeahga.community.dto.MomCafeCrawlingDTO;
 import com.saeahga.community.dto.NewsCrawlingDTO;
 
 import java.util.List;
