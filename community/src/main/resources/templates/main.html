@@ -13,6 +13,15 @@
     <th:block layout:fragment="script">
         <script th:inline="javascript">
             $(function() {
+                // 국내결혼중개업 href 셋팅
+                const naverQueryUrl = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=";
+
+                $(".main-broker-list-items a").each(function() {
+                    // 결혼중개업체명 인코딩
+                    $(this).attr("href", naverQueryUrl + encodeURIComponent($(this).text()));
+                });
+
+
                 // "뉴스 더보기" or "뉴스 접기" 클릭 시, 저출산 뉴스 리스트 추가 or 삭제
                 $("#news-view-more").on("click", function() {
                     const toggleYn = $(this).data("toggleYn");
@@ -124,22 +133,14 @@
             <div id="main-side-wrapper">
                 <div id="main-broker-list">
                     <h5>국내 결혼 중개업</h5>
-                    <span>서울로 검색한 결과입니다.</span>
+                    <span th:if="${getApiResult.apiResultCode != 'a-0'}">서울로 검색한 결과입니다.</span>
+                    <span style="color: red;" th:unless="${getApiResult.apiResultCode != 'a-0'}" th:text="${getApiResult.apiResultMsg}"></span>
                     <!-- 국내 결혼 중개업 리스트 -->
-                    <div class="main-broker-list-items">
-                        <a href="#">(주)두리모아</a>
+                    <div class="main-broker-list-items" th:each="brokerage : ${getDmstMrgBrkList}" th:if="${getApiResult.apiResultCode != 'a-0'}">
+                        <a th:text="${brokerage.entrpsNm}" target="_blank"></a>
                     </div>
-                    <div class="main-broker-list-items">
-                        <a href="#">가연결혼정보주식회사</a>
-                    </div>
-                    <div class="main-broker-list-items">
-                        <a href="#">골든브릿지 결혼정보</a>
-                    </div>
-                    <div class="main-broker-list-items">
-                        <a href="#">러브블라썸</a>
-                    </div>
-                    <div class="main-broker-list-items">
-                        <a href="#">가든국내.국제결혼</a>
+                    <div class="main-broker-list-items" th:each="brokerage : ${getDmstMrgBrkList}" th:unless="${getApiResult.apiResultCode != 'a-0'}">
+                        <a th:text="${brokerage.entrpsNm}" target="_blank"></a>
                     </div>
                     <div id="broker-view-more-wrapper">
                         <div id="broker-view-more">

@@ -3,6 +3,7 @@ package com.saeahga.community.service.api.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saeahga.community.dto.DmstMrgBrkApiResultDTO;
 import com.saeahga.community.dto.DmstMrgBrkDTO;
 import com.saeahga.community.service.api.ApiService;
 import org.json.JSONObject;
@@ -12,7 +13,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,13 +32,21 @@ public class ApiServiceImpl implements ApiService {
     // 공공데이터포털 -> 국내결혼중개업 API
     // pageNo: 페이지번호, numOfRows: 한 페이지 결과 수
     @Override
-    public List<DmstMrgBrkDTO> dataDmstMrgBrkAPI(int pageNo, int numOfRows) {
+    public Map<String, Object> dataDmstMrgBrkAPI(int pageNo, int numOfRows, String ctpvNm) throws UnsupportedEncodingException {
+        // 국내결혼중개업 리스트 + API 호출 결과 관련 map
+        Map<String, Object> returnApiMap = new HashMap<>();
+
+        // 국내결혼중개업 리스트
         List<DmstMrgBrkDTO> returnDataDmstMrgBrkList = new ArrayList<>();
+
+        // 시도명 인코딩
+        String encodedCtpvNm = URLEncoder.encode(ctpvNm, "UTF-8");
+//        String encodedCtpvNm = ctpvNm;
 
         // uribuild 설정을 도와주는 DefaultUriBUilderFactory 호출
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);
         // 인코딩 모드 설정
-        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES);
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
 
         try {
             WebClient webClient = WebClient.builder()
@@ -49,7 +61,7 @@ public class ApiServiceImpl implements ApiService {
                             .queryParam("pageNo", pageNo)
                             .queryParam("numOfRows", numOfRows)
                             .queryParam("type", "json")
-                            .queryParam("ctpvNm", "서울")
+                            .queryParam("ctpvNm", encodedCtpvNm)
                             .build())
                     .retrieve()
                     .bodyToMono(String.class)
@@ -63,7 +75,7 @@ public class ApiServiceImpl implements ApiService {
             JsonNode jsonNode = objectMapper.readTree(response);
             String jsonStr = jsonNode.findValue("item").toString();
 
-            // API 결과
+            // API 조회 결과
             List<Map<String, String>> returnResponse = new ObjectMapper().readValue(jsonStr, new TypeReference<List<Map<String, String>>>() {});
 
             for(int i=0; i<returnResponse.size(); i++) {
@@ -86,10 +98,30 @@ public class ApiServiceImpl implements ApiService {
                 else
                     returnDataDmstMrgBrkList.get(i).setOperState("미운영");
             }
+
+            // API 호출 성공 시
+            DmstMrgBrkApiResultDTO returnDmstMrgBrkApiResultDTO = DmstMrgBrkApiResultDTO.builder()
+                    .apiResultCode("a-1")
+                    .apiResultMsg("success")
+                    .build();
+
+            returnApiMap.put("dataDmstMrgBrkList", returnDataDmstMrgBrkList);
+            returnApiMap.put("apiResult", returnDmstMrgBrkApiResultDTO);
         } catch(Exception e) {
+            // API 호출 실패 시
+            DmstMrgBrkApiResultDTO returnDmstMrgBrkApiResultDTO = DmstMrgBrkApiResultDTO.builder()
+                    .apiResultCode("a-0")
+                    .apiResultMsg("[ERROR]: 국내결혼중개업 조회 시, 문제가 발생하였습니다. 관리자에게 문의하시기 바랍니다.")
+                    .build();
+
+            System.out.println(returnDmstMrgBrkApiResultDTO.getApiResultMsg());
+
+            returnApiMap.put("dataDmstMrgBrkList", null);
+            returnApiMap.put("apiResult", returnDmstMrgBrkApiResultDTO);
+
             e.printStackTrace();
         }
 
-        return returnDataDmstMrgBrkList;
+        return returnApiMap;
     }
 }

@@ -1,6 +1,7 @@
 package com.saeahga.community.controller;
 
 import com.saeahga.community.dto.BenefitCrawlingDTO;
+import com.saeahga.community.dto.DmstMrgBrkApiResultDTO;
 import com.saeahga.community.dto.DmstMrgBrkDTO;
 import com.saeahga.community.dto.NewsCrawlingDTO;
 import com.saeahga.community.service.api.ApiService;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/home")
@@ -27,7 +30,7 @@ public class HomeController {
 
     // 메인 화면으로 이동 및 뉴스&블로그 크롤링 조회
     @GetMapping("/main")
-    public ModelAndView moveMain() {
+    public ModelAndView moveMain() throws UnsupportedEncodingException {
         // 현재일자
         LocalDateTime today = LocalDateTime.now();
 
@@ -55,14 +58,15 @@ public class HomeController {
         List<BenefitCrawlingDTO> getBenefitCrawlingList = crawlingService.getBenefitCrawlingList(currentDate);
 
         /*
-            3. 화면으로 전달할 국내 결혼 중개업 리스트
-            - 5개만 조회
+            3. 화면으로 전달할 국내결혼중개업 리스트
+            - 시도명은 '서울'로 설정하여 5개만 조회
         */
-        List<DmstMrgBrkDTO> getDmstMrgBrkList = apiService.dataDmstMrgBrkAPI(1, 5);
+        // 국내결혼중개업 API 호출
+        Map<String, Object> returnApiMap = apiService.dataDmstMrgBrkAPI(1, 5, "서울");
 
-        for(int i=0; i< getDmstMrgBrkList.size(); i++) {
-            System.out.println(getDmstMrgBrkList.get(i));
-        }
+        // 국내결혼중개업 리스트
+        List<DmstMrgBrkDTO> getDmstMrgBrkList = (List<DmstMrgBrkDTO>)returnApiMap.get("dataDmstMrgBrkList");
+        DmstMrgBrkApiResultDTO getApiResult = (DmstMrgBrkApiResultDTO)returnApiMap.get("apiResult");
 
         ModelAndView mv = new ModelAndView();
 
@@ -70,6 +74,7 @@ public class HomeController {
         mv.addObject("getNewsCrawlingList", getNewsCrawlingList);
         mv.addObject("getBenefitCrawlingList", getBenefitCrawlingList);
         mv.addObject("getDmstMrgBrkList", getDmstMrgBrkList);
+        mv.addObject("getApiResult", getApiResult);
         mv.addObject("newsDate", newsDate);
 
         return mv;
