@@ -19,7 +19,7 @@ public class CafeController {
     private final CrawlingService crawlingService;
 
     // 맘카페 리스트 조회
-    @GetMapping("/mom")
+    @GetMapping("/getMomCafeList")
     public ModelAndView getMomCafeList(@RequestParam("pageNo") int pageNo) {
         // 화면으로 전달할 맘카페 리스트 + 페이지네이션 데이터 조회
         Map<String, Object> returnMap = crawlingService.getMomCafeCrawlingList(pageNo);

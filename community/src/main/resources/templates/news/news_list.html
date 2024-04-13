@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http:///www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<!-- head 영역 시작 -->
+<!-- 개별적으로 사용할 css, js 링크 걸기 위해서 남겨둠 -->
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/news_list.css}"/>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            $(function() {
+                /*
+                    메뉴 선택 효과
+                    - '저출산 뉴스' 메뉴 선택 시
+                */
+                // 이전에 선택된 메뉴가 있다면 효과 초기화
+                $(".nav-item").css("border-bottom-color", "white");
+
+                // 밑줄 표현
+                $(".header-bottom-ul .nav-item:nth-child(1)").css("border-bottom-color", "#3F63BF");
+
+
+                // 스크롤에 따른 TOP 버튼 보이기
+                $(window).scroll(function() {
+                    if ($(this).scrollTop() > 300) { // 300 넘으면 TOP 버튼 보임
+                        $("#btn-top-wrapper").fadeIn();
+                    } else {
+                        $("#btn-top-wrapper").fadeOut();
+                    }
+                });
+
+                // TOP 버튼 클릭 시, 페이지 최상단으로 이동
+                $("#btn-top").on("click", function() {
+                    // 페이지 최상단으로 이동
+                    window.scrollTo(0, 0);
+                });
+            });
+        </script>
+    </th:block>
+</head>
+<!-- head 영역 끝 -->
+
+<body>
+<div layout:fragment="content">
+    <div id="news-list-container">
+        <!-- 현재일자 -->
+        <div id="news-date-wrapper">
+            <span>4.13(토)</span>
+            <hr>
+        </div>
+
+        <!-- 저출산 뉴스 리스트 영역 -->
+        <div id="news-list-wrapper">
+            <div class="news-list-items">
+                <div class="news-list-img">
+                    <a href="#" target="_blank">
+                        <img src="/images/newsImg.jpg" class="news-img">
+                    </a>
+                </div>
+                <div class="news-info">
+                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
+                    <p>저출산 현상으로 0~14세 유소년인구 비중은 11.7%에서 8.1%로 한자리 수로 떨어진다. 65세 이상 내국인 고령인구는 2025년 1000만명을 넘고, 2036년... 저출산 영향으로 2022~2042년 기간 동안 내국인 유소년부양비는</p>
+                    <span class="news-company">MBC</span>
+                </div>
+                <hr>
+            </div>
+            <div class="news-list-items">
+                <div class="news-list-img">
+                    <a href="#" target="_blank">
+                        <img src="/images/newsImg.jpg" class="news-img">
+                    </a>
+                </div>
+                <div class="news-info">
+                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
+                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
+                    <span class="news-company">MBC</span>
+                </div>
+                <hr>
+            </div>
+            <div class="news-list-items">
+                <div class="news-list-img">
+                    <a href="#" target="_blank">
+                        <img src="/images/newsImg.jpg" class="news-img">
+                    </a>
+                </div>
+                <div class="news-info">
+                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
+                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
+                    <span class="news-company">MBC</span>
+                </div>
+                <hr>
+            </div>
+            <div class="news-list-items">
+                <div class="news-list-img">
+                    <a href="#" target="_blank">
+                        <img src="/images/newsImg.jpg" class="news-img">
+                    </a>
+                </div>
+                <div class="news-info">
+                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
+                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
+                    <span class="news-company">MBC</span>
+                </div>
+                <hr>
+            </div>
+            <div class="news-list-items">
+                <div class="news-list-img">
+                    <a href="#" target="_blank">
+                        <img src="/images/newsImg.jpg" class="news-img">
+                    </a>
+                </div>
+                <div class="news-info">
+                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
+                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
+                    <span class="news-company">MBC</span>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div id="btn-top-wrapper">
+            <button id="btn-top">TOP</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

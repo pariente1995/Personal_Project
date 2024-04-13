@@ -1,0 +1,103 @@
+#news-list-container {
+    width: 1350px;
+    height: auto;
+    min-height: 600px;
+    margin: 0 auto;
+    display: flex;
+    /* 열(세로) 방향 배치 */
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 현재일자 영역 */
+#news-date-wrapper {
+    width: 1015px;
+}
+
+/* 저출산 뉴스 리스트 영역 */
+#news-list-wrapper {
+    width: 1015px;
+    margin-bottom: 30px;
+}
+
+.news-list-items {
+    width: 100%;
+    padding: 0 5%;
+    display: flex;
+    /* 여유 공간이 없을 시, 줄바꿈 처리 */
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.news-list-items hr {
+    width: 100%;
+}
+
+.news-list-img {
+    width: 130px;
+    margin-right: 20px;
+}
+
+.news-img {
+    width: 130px;
+    height:120px;
+}
+
+.news-info {
+    /* 150px -> 이미지 영역 130px + 이미지 마진 20px */
+    width: calc(100% - 150px);
+    /* 영역을 넘어가도 줄바꿈 되지 않게 */
+    white-space: nowrap;
+    overflow: hidden;
+    /* 말줄임 표시 */
+    text-overflow: ellipsis;
+}
+
+.news-info a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.news-info a:hover {
+    text-decoration: underline;
+}
+
+.news-info p {
+    color: #9E9E9E;
+    overflow: hidden;
+    /* 말줄임 표시 */
+    text-overflow: ellipsis;
+}
+
+.news-info .news-company {
+    display: block;
+    margin-top: 40px;
+    color: #9E9E9E;
+}
+
+/* TOP 버튼 영역 */
+#btn-top-wrapper {
+    width: 50px;
+    height: 100px;
+    /* position: sticky 사용 시, 부모의 height 를 설정해주어야 한다. */
+    /* 스크롤 시, 사이드바 고정 효과 */
+    position: sticky;
+    /*
+        top, bottom, left, right 들 중에 하나를 필수적으로 설정해주어야 한다.
+        해당 설정 값 이후부터 사이드바 고정.
+        상단에서 픽셀만큼 요소를 아래에 고정시킴.
+    */
+    left: 1400px;
+    bottom: 20px;
+    display: none;
+}
+
+#btn-top-wrapper #btn-top {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: #3F63BF;
+    color: white;
+    font-size: 1.1em;
+}

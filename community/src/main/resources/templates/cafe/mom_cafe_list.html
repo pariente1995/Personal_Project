@@ -64,14 +64,14 @@
 												     tempEndPage = ${startPage + pageRange - 1},
 												     endPage = ${tempEndPage > totalPages ? totalPages : tempEndPage}">
                 <li class="mom-cafe-pagination-btn" th:if="${pageNumber > 1}">
-                    <!-- ex) /cafe/mom?pageNo=1 -->
-                    <a th:href="@{/cafe/mom(pageNo=${pageNumber - 1})}" class="prev">&lt</a>
+                    <!-- ex) /cafe/getMomCafeList?pageNo=1 -->
+                    <a th:href="@{/cafe/getMomCafeList(pageNo=${pageNumber - 1})}" class="prev">&lt</a>
                 </li>
                 <li class="mom-cafe-pagination-btn" th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                    <a th:href="@{/cafe/mom(pageNo=${page})}" th:text="${page}"></a>
+                    <a th:href="@{/cafe/getMomCafeList(pageNo=${page})}" th:text="${page}"></a>
                 </li>
                 <li class="mom-cafe-pagination-btn" th:if="${pageNumber < totalPages}">
-                    <a th:href="@{/cafe/mom(pageNo=${pageNumber + 1})}" class="next">&gt</a>
+                    <a th:href="@{/cafe/getMomCafeList(pageNo=${pageNumber + 1})}" class="next">&gt</a>
                 </li>
             </ul>
         </div>

@@ -21,7 +21,6 @@
 
                     a태그 사용하여 form submit시 무조건 e.preventDefault()하기.
                 */
-
             });
         </script>
     </th:block>
@@ -47,13 +46,13 @@
         </nav>
         <ul class="nav justify-content-center header-bottom-ul">
             <li class="nav-item">
-                <a class="nav-link" href="#" th:onclick="fnDrawUnderline(this)">저출산 뉴스</a>
+                <a class="nav-link" th:href="@{/news/getNewsList}" th:onclick="fnDrawUnderline(this)">저출산 뉴스</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" th:onclick="fnDrawUnderline(this)">국내 결혼 중개업</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/cafe/mom?pageNo=1}" th:onclick="fnDrawUnderline(this)">맘 카페</a>
+                <a class="nav-link" th:href="@{/cafe/getMomCafeList?pageNo=1}" th:onclick="fnDrawUnderline(this)">맘 카페</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" th:onclick="fnDrawUnderline(this)">커뮤니티</a>
