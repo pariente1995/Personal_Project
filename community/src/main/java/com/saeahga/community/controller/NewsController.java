@@ -10,7 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/news")
@@ -24,20 +26,26 @@ public class NewsController {
         // 현재일자
         LocalDateTime today = LocalDateTime.now();
 
-        // 현재일자 형식 셋팅(ex. 2024.03.10)
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY.MM.dd");
-        String currentDate = today.format(dateTimeFormatter);
+        String year = Integer.toString(today.getYear()); // 년
+        String month = Integer.toString(today.getMonthValue()); // 월
+        String day = Integer.toString(today.getDayOfMonth()); // 일
+        String dayOfWeek = today.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN); // 요일
+
+        // 뉴스일자
+        String newsDate = String.format("%s.%s(%s)", month, day, dayOfWeek);
 
         /*
-            1. 화면으로 전달할 뉴스 리스트
+            화면으로 전달할 뉴스 리스트
             - 현재일자로 크롤링하여 뉴스 리스트 조회
         */
-        List<NewsCrawlingDTO> getNewsCrawlingList = crawlingService.getNewsCrawlingList(currentDate);
+        List<NewsCrawlingDTO> getNewsSeleniumCrawlingList = crawlingService.getNewsSeleniumCrawlingList(year, month, day);
 
         ModelAndView mv = new ModelAndView();
 
         mv.setViewName("news/news_list");
-        mv.addObject("getNewsCrawlingList", getNewsCrawlingList);
+        mv.addObject("getNewsSeleniumCrawlingList", getNewsSeleniumCrawlingList);
+        mv.addObject("newsDate", newsDate);
+
         return mv;
     }
 }

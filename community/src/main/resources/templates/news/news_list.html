@@ -49,74 +49,23 @@
     <div id="news-list-container">
         <!-- 현재일자 -->
         <div id="news-date-wrapper">
-            <span>4.13(토)</span>
+            <span th:text="${newsDate}"></span>
             <hr>
         </div>
 
         <!-- 저출산 뉴스 리스트 영역 -->
         <div id="news-list-wrapper">
-            <div class="news-list-items">
+            <div class="news-list-items" th:each="news : ${getNewsSeleniumCrawlingList}">
                 <div class="news-list-img">
-                    <a href="#" target="_blank">
-                        <img src="/images/newsImg.jpg" class="news-img">
+                    <a th:href="${news.newsLink}" target="_blank">
+                        <img th:if="${news.newsImgPath != 'no img'}" th:src="${news.newsImgPath}" class="news-img">
+                        <img th:unless="${news.newsImgPath != 'no img'}" th:src="@{/images/n.png}" class="news-img">
                     </a>
                 </div>
                 <div class="news-info">
-                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
-                    <p>저출산 현상으로 0~14세 유소년인구 비중은 11.7%에서 8.1%로 한자리 수로 떨어진다. 65세 이상 내국인 고령인구는 2025년 1000만명을 넘고, 2036년... 저출산 영향으로 2022~2042년 기간 동안 내국인 유소년부양비는</p>
-                    <span class="news-company">MBC</span>
-                </div>
-                <hr>
-            </div>
-            <div class="news-list-items">
-                <div class="news-list-img">
-                    <a href="#" target="_blank">
-                        <img src="/images/newsImg.jpg" class="news-img">
-                    </a>
-                </div>
-                <div class="news-info">
-                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
-                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
-                    <span class="news-company">MBC</span>
-                </div>
-                <hr>
-            </div>
-            <div class="news-list-items">
-                <div class="news-list-img">
-                    <a href="#" target="_blank">
-                        <img src="/images/newsImg.jpg" class="news-img">
-                    </a>
-                </div>
-                <div class="news-info">
-                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
-                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
-                    <span class="news-company">MBC</span>
-                </div>
-                <hr>
-            </div>
-            <div class="news-list-items">
-                <div class="news-list-img">
-                    <a href="#" target="_blank">
-                        <img src="/images/newsImg.jpg" class="news-img">
-                    </a>
-                </div>
-                <div class="news-info">
-                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
-                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
-                    <span class="news-company">MBC</span>
-                </div>
-                <hr>
-            </div>
-            <div class="news-list-items">
-                <div class="news-list-img">
-                    <a href="#" target="_blank">
-                        <img src="/images/newsImg.jpg" class="news-img">
-                    </a>
-                </div>
-                <div class="news-info">
-                    <a href="#" target="_blank">정부, 저출산 특단 대책 추진…"내년 극복 원년"</a>
-                    <p>진미정 서울대 아동가족학과 교수는 "여러 정책들의 효과를 세밀하게 분</p>
-                    <span class="news-company">MBC</span>
+                    <a th:href="${news.newsLink}" target="_blank" th:text="${news.newsTitle}"></a>
+                    <p th:text="${news.newsDsc}"></p>
+                    <span class="news-company" th:text="${news.newsMedia}"></span>
                 </div>
                 <hr>
             </div>
