@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
@@ -22,7 +22,7 @@ public class NewsController {
     private final CrawlingService crawlingService;
 
     @GetMapping("/getNewsList")
-    public ModelAndView getNewsList() {
+    public ModelAndView getNewsList() throws IOException {
         // 현재일자
         LocalDateTime today = LocalDateTime.now();
 

@@ -68,8 +68,9 @@ public class SecurityConfig {
                                 .requestMatchers("/favicon.ico").permitAll()
                                 // 누구든 접근 가능하게 함.
                                 .requestMatchers("/user/**").permitAll()
-                                .requestMatchers("/cafe/**").permitAll()
                                 .requestMatchers("/news/**").permitAll()
+                                .requestMatchers("/brokerage/**").permitAll()
+                                .requestMatchers("/cafe/**").permitAll()
                                 // 권한을 가지고 있는 유저들만 접근할 수 있는 요청리소스 설정
                                 // Authentication 객체를 만든 후에 가져올 수 있는 권한들
                                 .requestMatchers("/admin/**").hasRole("ADMIN")

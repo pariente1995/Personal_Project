@@ -1,0 +1,169 @@
+#dmst-mrg-brk-list-container {
+    width: 1500px;
+    min-height: 600px;
+    margin: 0 auto;
+    display: flex;
+    /* 열(세로) 방향 배치 */
+    flex-direction: column;
+    align-items: center;
+}
+
+/* === 국내 결혼 중개업 조회조건 영역 === */
+#brk-search-cond-wrapper {
+    width: 1020px;
+    height: 200px;
+    margin-bottom: 50px;
+    background-color: #F4F6F8;
+}
+
+#search-cond-area {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 50px;
+}
+
+.search-cond-wrap-common {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-cond-wrap-common input {
+    width: 140px;
+    height: 50px;
+    padding-left: 10px;
+    border: 1px solid #C7C8C9;
+}
+
+.search-cond-wrap-common input::placeholder {
+    font-size: 0.9em;
+    color: #C7C8C9;
+}
+
+.search-cond-wrap-common #entrpsNm {
+    width: 180px;
+}
+
+.search-cond-common {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 10px;
+    background-color: #3F63BF;
+    color: white;
+}
+
+.search-cond-common span {
+    font-size: 1.1em;
+}
+
+/* === 검색 & 초기화 버튼 영역 === */
+#operate-btn-area {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-common {
+    width: 110px;
+    height: 40px;
+    border: none;
+    border-radius: 50px;
+    background-color: #3F63BF;
+    color: white;
+}
+
+.btn-inner-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-img-common {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+#btn-search {
+    margin-right: 50px;
+}
+
+
+/* === 국내 결혼 중개업 리스트 영역 === */
+#brk-list-wrapper {
+    width: 1020px;
+    margin-bottom: 50px;
+    padding: 0 50px;
+}
+
+#search-info-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* 국내 결혼 중개업 리스트 관련 정보 영역 */
+#notice-info span {
+    font-size: 0.9em;
+    color: red;
+}
+
+#oper-state-info {
+    display: flex;
+    justify-content: center;
+}
+
+#oper-y {
+    margin-right: 20px;
+}
+
+.oper-state-common {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.oper-state-img-common {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+
+/* 국내 결혼 중개업 리스트 조회결과 영역 */
+#table-brk-list {
+    width: 100%;
+    text-align: center;
+}
+
+#table-brk-list thead {
+    height: 50px;
+    background-color: #3F63BF;
+    color: white;
+}
+
+tbody .brk-list-items {
+    height: 50px;
+    cursor: pointer;
+}
+
+tbody .brk-list-items:hover {
+    background-color: #F4F6F8;
+}
+
+tbody .brk-list-items img {
+    width: 20px;
+    height: 20px;
+}
+
+tbody .brk-list-no-items, tbody .brk-list-api-result {
+    height: 150px;
+}
+
+.brk-list-api-result td {
+    color: red;
+}
+
+

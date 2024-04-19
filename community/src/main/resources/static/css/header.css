@@ -1,3 +1,47 @@
+/* === 로딩 효과 영역 START === */
+.loading-wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: none;
+    flex-direction: column; /* 저출산 뉴스 화면으로 이동 시, header.js 에서 display 가 flex 로 변경될 때 사용됨 */
+    align-items: center; /* 저출산 뉴스 화면으로 이동 시, header.js 에서 display 가 flex 로 변경될 때 사용됨 */
+    justify-content: center; /* 저출산 뉴스 화면으로 이동 시, header.js 에서 display 가 flex 로 변경될 때 사용됨 */
+    text-align: center;
+    z-index: 1;
+}
+
+/* 가상요소 */
+.loading-wrapper::after {
+    width: 100%;
+    height: 100%;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    opacity: 0.7;
+    z-index: -1;
+}
+
+.loading-info {
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    font-size: 1.2em;
+}
+
+.loading-info img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 30px;
+}
+/* === 로딩 효과 영역 END === */
+
 header {
     margin-bottom: 2%;
 }

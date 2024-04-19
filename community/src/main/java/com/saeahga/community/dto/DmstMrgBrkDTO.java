@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DmstMrgBrkDTO {
     private String entrpsNm; // 업체명
-    private String rprsvNm; // 대표자명
-    private String addr; // 주소
-    private String operState; // 운영상태
-    private String crtrYmd; // 기준일자
+    private String ctpvNm; // 시도명
+    private String sggNm; // 시군구명
+    private String operYn; // 운영여부
+    private String addr; // 전체 주소
 }

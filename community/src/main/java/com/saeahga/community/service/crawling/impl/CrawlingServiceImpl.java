@@ -119,7 +119,7 @@ public class CrawlingServiceImpl implements CrawlingService {
 
     // 현재일자로 저출산 관련 뉴스 리스트 크롤링(30개) -> selenium 사용
     @Override
-    public List<NewsCrawlingDTO> getNewsSeleniumCrawlingList(String year, String month, String day) {
+    public List<NewsCrawlingDTO> getNewsSeleniumCrawlingList(String year, String month, String day) throws IOException {
         // 뉴스 크롤링 결과 리스트
         List<NewsCrawlingDTO> returnNewsSeleniumCrawlingList = new ArrayList<>();
 
@@ -315,6 +315,12 @@ public class CrawlingServiceImpl implements CrawlingService {
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
+            /*
+                셀레니움 실행 후, 작업관리자의 백그라운드에 chrome.exe가 계속해서 쌓이고
+                CPU 사용량이 늘어나 느려지기에 chrome.exe 프로세스를 강제로 종료해준다.
+            */
+            Runtime.getRuntime().exec("taskkill /f /im chrome.exe/t");
+
             driver.quit();
         }
 

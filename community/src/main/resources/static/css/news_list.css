@@ -1,3 +1,13 @@
+.loading{
+    width:100%;
+    height:100%;
+    position:fixed;
+    left:0px;
+    top:0px;
+    background-color: red;
+    z-index:1000; /* 이 값으로 레이어의 위치를 조정합니다. */
+}
+
 #news-list-container {
     width: 1350px;
     height: auto;

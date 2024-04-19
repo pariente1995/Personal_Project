@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @Setter
 @Getter
-public class Crawling {
+public class Crawling_bak_240416 {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,

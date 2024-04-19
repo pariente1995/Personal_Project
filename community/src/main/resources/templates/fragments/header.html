@@ -28,6 +28,14 @@
 
 <body>
     <header th:fragment="header">
+        <!-- '저출산 뉴스' 메뉴 관련 로딩 화면 -->
+        <div class="loading-wrapper">
+            <div class="loading-info">
+                <img th:src="@{/images/loading.gif}">
+                <span>뉴스를 수집하고 있습니다. 잠시만 기다려 주세요.</span>
+            </div>
+        </div>
+
         <nav class="navbar navbar-expand-lg" aria-label="Eighth navbar example">
             <div class="container">
                 <a class="navbar-brand" th:href="@{/home/main}">
@@ -46,10 +54,10 @@
         </nav>
         <ul class="nav justify-content-center header-bottom-ul">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/news/getNewsList}" th:onclick="fnDrawUnderline(this)">저출산 뉴스</a>
+                <a class="nav-link" id="news-link" th:href="@{/news/getNewsList}">저출산 뉴스</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" th:onclick="fnDrawUnderline(this)">국내 결혼 중개업</a>
+                <a class="nav-link" th:href="@{/brokerage/getDmstMrgBrkListView}" th:onclick="fnDrawUnderline(this)">국내 결혼 중개업</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/cafe/getMomCafeList?pageNo=1}" th:onclick="fnDrawUnderline(this)">맘 카페</a>

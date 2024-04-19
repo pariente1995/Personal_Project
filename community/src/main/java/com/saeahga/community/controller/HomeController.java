@@ -62,7 +62,12 @@ public class HomeController {
             - 시도명은 '서울'로 설정하여 5개만 조회
         */
         // 국내결혼중개업 API 호출
-        Map<String, Object> returnApiMap = apiService.dataDmstMrgBrkAPI(1, 5, "서울");
+        // 시도명 '서울'로 설정
+        DmstMrgBrkDTO dmstMrgBrkDTO = DmstMrgBrkDTO.builder()
+                .ctpvNm("서울")
+                .build();
+
+        Map<String, Object> returnApiMap = apiService.dataDmstMrgBrkAPI(dmstMrgBrkDTO, 1, 5);
 
         // 국내결혼중개업 리스트
         List<DmstMrgBrkDTO> getDmstMrgBrkList = (List<DmstMrgBrkDTO>)returnApiMap.get("dataDmstMrgBrkList");
