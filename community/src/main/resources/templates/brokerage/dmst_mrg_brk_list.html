@@ -23,6 +23,13 @@
                 // 밑줄 표현
                 $(".header-bottom-ul .nav-item:nth-child(2)").css("border-bottom-color", "#3F63BF");
 
+                // 엔터 시, 국내 결혼 중개업 조회
+                $(".search").on("keydown", function (e) {
+                    if (e.keyCode == 13) {
+                        $("#btn-search").click();
+                    }
+                });
+
                 // 검색 버튼 클릭 시, 국내 결혼 중개업 조회
                 $("#btn-search").click(function () {
                     $("#brk-search-cond-form").submit();
@@ -64,21 +71,21 @@
                         <div class="search-cond-common">
                             <span>시도명</span>
                         </div>
-                        <input type="text" name="ctpvNm" id="ctpvNm" placeholder="서울"
+                        <input type="text" name="ctpvNm" id="ctpvNm" class="search" placeholder="서울"
                                th:value="${returnCtpvNm}">
                     </div>
                     <div id="sgg-name-wrap" class="search-cond-wrap-common">
                         <div class="search-cond-common">
                             <span>시군구명</span>
                         </div>
-                        <input type="text" name="sggNm" id="sggNm" placeholder="강남구"
+                        <input type="text" name="sggNm" id="sggNm" class="search" placeholder="강남구"
                                th:value="${returnSggNm}">
                     </div>
                     <div id="entrps-name-wrap" class="search-cond-wrap-common">
                         <div class="search-cond-common">
                             <span>업체명</span>
                         </div>
-                        <input type="text" name="entrpsNm" id="entrpsNm" placeholder="업체명을 입력해주세요."
+                        <input type="text" name="entrpsNm" id="entrpsNm" class="search" placeholder="업체명을 입력해주세요."
                                th:value="${returnEntrpsNm}">
                     </div>
                 </div>

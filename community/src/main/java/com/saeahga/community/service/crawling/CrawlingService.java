@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface CrawlingService {
     // 현재일자로 저출산 관련 뉴스 리스트 크롤링(10개) -> Jsoup 사용
-    List<NewsCrawlingDTO> getNewsCrawlingList(String currentDate);
+    List<NewsCrawlingDTO> getNewsJsoupCrawlingList(String currentDate);
 
     // 현재일자로 저출산 관련 뉴스 리스트 크롤링(30개) -> selenium 사용
     List<NewsCrawlingDTO> getNewsSeleniumCrawlingList(String year, String month, String day) throws IOException;

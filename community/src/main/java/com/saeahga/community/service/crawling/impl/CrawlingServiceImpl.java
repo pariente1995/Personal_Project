@@ -26,9 +26,9 @@ import java.util.concurrent.TimeUnit;
 public class CrawlingServiceImpl implements CrawlingService {
     // 현재일자로 저출산 관련 뉴스 리스트 크롤링(10개) -> Jsoup 사용
     @Override
-    public List<NewsCrawlingDTO> getNewsCrawlingList(String currentDate) {
+    public List<NewsCrawlingDTO> getNewsJsoupCrawlingList(String currentDate) {
         // 뉴스 크롤링 결과 리스트
-        List<NewsCrawlingDTO> returnNewsCrawlingList = new ArrayList<>();
+        List<NewsCrawlingDTO> returnNewsJsoupCrawlingList = new ArrayList<>();
 
         // 크롤링할 사이트의 URL
         String baseUrl = "https://search.naver.com/search.naver?where=news&query=%EC%A0%80%EC%B6%9C%EC%82%B0&sm=tab_opt&sort=0&photo=0&field=0&pd=3&ds="
@@ -90,7 +90,7 @@ public class CrawlingServiceImpl implements CrawlingService {
                 if(newsCrawlingDTO.getNewsDsc().length() > 50)
                     newsCrawlingDTO.setNewsDsc(newsCrawlingDTO.getNewsDsc().substring(0, 50));
 
-                returnNewsCrawlingList.add(newsCrawlingDTO);
+                returnNewsJsoupCrawlingList.add(newsCrawlingDTO);
             }
 
             /*
@@ -101,7 +101,7 @@ public class CrawlingServiceImpl implements CrawlingService {
 
                 따라서, 이미지가 있는 뉴스만 이미지 경로를 셋팅해준다.
             */
-            for(NewsCrawlingDTO dto : returnNewsCrawlingList) {
+            for(NewsCrawlingDTO dto : returnNewsJsoupCrawlingList) {
                 String newsId = dto.getNewsId();
 
                 if(newsImgMap.containsKey(newsId)) {
@@ -114,7 +114,7 @@ public class CrawlingServiceImpl implements CrawlingService {
             e.printStackTrace();
         }
 
-        return returnNewsCrawlingList;
+        return returnNewsJsoupCrawlingList;
     }
 
     // 현재일자로 저출산 관련 뉴스 리스트 크롤링(30개) -> selenium 사용
@@ -316,10 +316,13 @@ public class CrawlingServiceImpl implements CrawlingService {
             e.printStackTrace();
         } finally {
             /*
-                셀레니움 실행 후, 작업관리자의 백그라운드에 chrome.exe가 계속해서 쌓이고
-                CPU 사용량이 늘어나 느려지기에 chrome.exe 프로세스를 강제로 종료해준다.
+                셀레니움 실행 후, 작업관리자의 백그라운드에 크롬 프로세스가 계속해서 쌓이고
+                CPU 사용량이 늘어나 느려지기에 chromedriver.exe 프로세스를 강제로 종료해준다.
+                -> 하지만 5번 정도를 반복해야지만 문제가 해결되었다..
             */
-            Runtime.getRuntime().exec("taskkill /f /im chrome.exe/t");
+            for(int i=0; i<5; i++) {
+                Runtime.getRuntime().exec("taskkill /f /im chromedriver.exe /t");
+            }
 
             driver.quit();
         }

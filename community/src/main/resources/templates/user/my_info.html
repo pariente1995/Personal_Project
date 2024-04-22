@@ -15,6 +15,14 @@
         <script th:inline="javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script th:inline="javascript">
             $(function() {
+                // 소셜 로그인 가입 여부
+                const snsFlag = /*[[${snsFlag}]]*/;
+
+                //소셜 로그인 가입의 경우 아이디 부분 UI 변경
+                if(snsFlag != "N")
+                    $(".my-info-list-id").css("border-radius", "15px 15px 15px 15px");
+
+
                 // DB 에서 조회된 주소를 ", " 로 분리하여 도로명 주소 및 상세주소 셋팅
                 let userAddr = /*[[${userInfo.userAddr}]]*/;
                 let tempAddr = userAddr.split(", ");
@@ -25,12 +33,21 @@
                 $("#userAddr2").val(userAddr2);
 
                 // 비밀번호의 경우, 수정을 하든 안하든 다시 입력을 해야하기에
+                // 소셜 로그인 가입의 경우, pwValidation 은 true 로 설정
                 let pwValidation = false;
 
+                if(snsFlag != "N")
+                    pwValidation = true;
+
                 // 해당 사용자에 대한 정보를 조회해서 보여주기에 true 로 설정
+                // 소셜 로그인 가입의 경우, 휴대전화번호가 없는 경우 phoneValidation 을 false 로 설정
                 let nmValidation = true;
                 let phoneValidation = true;
                 let mailValidation = true;
+                let userPhone = /*[[${userInfo.userPhone}]]*/;
+
+                if(snsFlag != "N" && userPhone == "")
+                    phoneValidation = false;
 
                 /* ========== 유효성 검사 start ========== */
 
@@ -296,7 +313,8 @@
                     let userPhone = $("#userPhone").val();
                     let userEmail = $("#userEmail").val();
 
-                    if(!userPw) {
+                    // 일반 회원가입의 경우에만
+                    if(!userPw && snsFlag != "Y") {
                         alert("비밀번호를 입력하세요.");
                         $("#userPw").focus();
                         return;
@@ -379,6 +397,7 @@
                         },
                         error: function(e) {
                             console.log(e);
+                            alert("회원정보 수정에 실패하였습니다. 관리자에게 문의하세요.");
                         }
                     });
                 });
@@ -432,12 +451,13 @@
                 </div>
                 <form id="my-info-form" action="#" method="post">
                     <div class="my-info-list" id="my-info-list-top">
-                        <div class="my-info-list-id my-info-list-item" data-focus-yn="N">
+                        <div class="my-info-list-id my-info-list-item">
                             <img class="my-info-image" th:src="@{/images/login.png}">
                             <input type="text" name="userId" id="userId" class="my-info-input" required placeholder="아이디"
                                    size="30" maxlength="20" th:value="${userInfo.userId}" readonly>
                         </div>
-                        <div class="my-info-list-pw my-info-list-item" data-focus-yn="N">
+                        <!-- 소셜 로그인 가입이 아닌 일반 회원가입의 경우에만 표시되도록 -->
+                        <div class="my-info-list-pw my-info-list-item" th:if="${snsFlag != 'Y'}">
                             <img class="my-info-pw-image" th:src="@{/images/password.png}">
                             <input type="password" name="userPw" id="userPw" class="my-info-input" required placeholder="비밀번호"
                                    size="30" maxlength="20">

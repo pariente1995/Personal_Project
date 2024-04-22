@@ -39,6 +39,7 @@
                     window.scrollTo(0, 0);
                 });
 
+                // 헤더 부분의 로딩 화면 fade out 처리
                 $(".loading-wrapper").fadeOut();
             });
         </script>
@@ -57,7 +58,7 @@
 
         <!-- 저출산 뉴스 리스트 영역 -->
         <div id="news-list-wrapper">
-            <div class="news-list-items" th:each="news : ${getNewsSeleniumCrawlingList}">
+            <div class="news-list-items" th:each="news : ${getNewsCrawlingList}" th:if="${#lists.size(getNewsCrawlingList) != 0}">
                 <div class="news-list-img">
                     <a th:href="${news.newsLink}" target="_blank">
                         <img th:if="${news.newsImgPath != 'no img'}" th:src="${news.newsImgPath}" class="news-img">
@@ -70,6 +71,11 @@
                     <span class="news-company" th:text="${news.newsMedia}"></span>
                 </div>
                 <hr>
+            </div>
+
+            <!-- 수집된 뉴스가 없을 경우 -->
+            <div class="no-news-list" th:unless="${#lists.size(getNewsCrawlingList) != 0}">
+                <span>수집된 '저출산' 뉴스가 없습니다.</span>
             </div>
         </div>
         <div id="btn-top-wrapper">

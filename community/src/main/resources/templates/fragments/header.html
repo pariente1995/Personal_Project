@@ -52,7 +52,8 @@
                 </div>
             </div>
         </nav>
-        <ul class="nav justify-content-center header-bottom-ul">
+        <!-- 로그인된 경우 -->
+        <ul class="nav justify-content-center header-bottom-ul" th:if="${#authentication.principal} != 'anonymousUser'">
             <li class="nav-item">
                 <a class="nav-link" id="news-link" th:href="@{/news/getNewsList}">저출산 뉴스</a>
             </li>
@@ -62,8 +63,17 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/cafe/getMomCafeList?pageNo=1}" th:onclick="fnDrawUnderline(this)">맘 카페</a>
             </li>
+        </ul>
+        <!-- 로그인 되지 않은 경우 -->
+        <ul class="nav justify-content-center header-bottom-ul" th:unless="${#authentication.principal} != 'anonymousUser'">
             <li class="nav-item">
-                <a class="nav-link" href="#" th:onclick="fnDrawUnderline(this)">커뮤니티</a>
+                <a class="nav-link" th:href="@{/user/login}" th:onclick="fnDrawUnderline(this)">저출산 뉴스</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/login}" th:onclick="fnDrawUnderline(this)">국내 결혼 중개업</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/login}" th:onclick="fnDrawUnderline(this)">맘 카페</a>
             </li>
         </ul>
         <hr>

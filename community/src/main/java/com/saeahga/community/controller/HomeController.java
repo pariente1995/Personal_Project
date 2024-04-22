@@ -49,7 +49,7 @@ public class HomeController {
             1. 화면으로 전달할 뉴스 리스트
             - 현재일자로 크롤링하여 뉴스 리스트 조회
         */
-        List<NewsCrawlingDTO> getNewsCrawlingList = crawlingService.getNewsCrawlingList(currentDate);
+        List<NewsCrawlingDTO> getNewsCrawlingList = crawlingService.getNewsJsoupCrawlingList(currentDate);
 
         /*
             2. 화면으로 전달할 출산 혜택 정보 블로그 리스트

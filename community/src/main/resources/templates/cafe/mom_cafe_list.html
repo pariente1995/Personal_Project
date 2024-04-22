@@ -22,6 +22,23 @@
 
                 // 밑줄 표현
                 $(".header-bottom-ul .nav-item:nth-child(3)").css("border-bottom-color", "#3F63BF");
+
+                // === 페이지네이션 영역에서 선택한 페이지 번호 효과 START ===
+                // 현재 페이지의 URL 을 받아온다.
+                const url = new URL(window.location.href);
+                // 받아온 URL 에서 파라미터를 받아온다.
+                const urlParams = url.searchParams;
+
+                let pageNo = urlParams.get("pageNo");
+
+                $(".mom-cafe-pagination-btn a").each(function() {
+                    // pageNo와 같으면 선택 효과
+                    if($(this).text() == pageNo) {
+                        $(this).css("color", "#3F63BF")
+                               .css("text-decoration", "underline");
+                    }
+                });
+                // === 페이지네이션 영역에서 선택한 페이지 번호 효과 END ===
             });
         </script>
     </th:block>

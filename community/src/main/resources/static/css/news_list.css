@@ -86,6 +86,16 @@
     color: #9E9E9E;
 }
 
+/* 수집된 뉴스가 없을 경우 표시될 영역 */
+.no-news-list {
+    text-align: center;
+}
+
+.no-news-list span {
+    color: red;
+    font-size: 1.1em;
+}
+
 /* TOP 버튼 영역 */
 #btn-top-wrapper {
     width: 50px;

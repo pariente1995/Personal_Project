@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     // 아이디 찾기(이름과 이메일로)
     @Override
     public List<User> findId(User user) {
-        return userRepository.findByUserNmAndUserEmail(user.getUserNm(), user.getUserEmail());
+        return userRepository.findByUserNmAndUserEmailOrderByUserRgstDateDesc(user.getUserNm(), user.getUserEmail());
     }
 
     // 비밀번호 찾기(아이디와 이메일로)
@@ -119,6 +119,11 @@ public class UserServiceImpl implements UserService {
     // 회원정보 수정
     @Override
     public void updateUserInfo(User user) {
-        userRepository.updateUserInfo(user);
+        // 소셜 로그인 가입자의 경우, 비밀번호 업데이트가 필요없기에
+        if(user.getUserId().contains("kakao") || user.getUserId().contains("naver")) {
+            userRepository.updateSnsUserInfo(user);
+        } else {
+            userRepository.updateUserInfo(user);
+        }
     }
 }

@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.DoubleStream;
 
 @RestController
 @RequestMapping("/user")
@@ -352,10 +351,17 @@ public class UserController {
                 .userAddr(user.getUserAddr())
                 .build();
 
+        // 소셜 로그인 가입 여부 판별
+        String snsFlag = "N";
+
+        if(userId.contains("kakao") || userId.contains("naver"))
+            snsFlag = "Y";
+
         ModelAndView mv = new ModelAndView();
 
-        mv.addObject("userInfo", userDTO);
         mv.setViewName("user/my_info");
+        mv.addObject("userInfo", userDTO);
+        mv.addObject("snsFlag", snsFlag);
 
         return mv;
     }
@@ -368,15 +374,29 @@ public class UserController {
 
         // 회원정보 업데이트
         try {
-            User user = User.builder()
-                    .userId(userDTO.getUserId())
-                    .userPw(passwordEncoder.encode(userDTO.getUserPw()))
-                    .userNm(userDTO.getUserNm())
-                    .userPhone(userDTO.getUserPhone())
-                    .userEmail(userDTO.getUserEmail())
-                    .userAddr(userDTO.getUserAddr())
-                    .userModfDate(LocalDateTime.now())
-                    .build();
+            User user;
+
+            // 소셜 로그인 가입자의 경우, 비밀번호 업데이트가 필요없기에
+            if(userDTO.getUserId().contains("kakao") || userDTO.getUserId().contains("naver")) {
+                user = User.builder()
+                        .userId(userDTO.getUserId())
+                        .userNm(userDTO.getUserNm())
+                        .userPhone(userDTO.getUserPhone())
+                        .userEmail(userDTO.getUserEmail())
+                        .userAddr(userDTO.getUserAddr())
+                        .userModfDate(LocalDateTime.now())
+                        .build();
+            } else {
+                user = User.builder()
+                        .userId(userDTO.getUserId())
+                        .userPw(passwordEncoder.encode(userDTO.getUserPw()))
+                        .userNm(userDTO.getUserNm())
+                        .userPhone(userDTO.getUserPhone())
+                        .userEmail(userDTO.getUserEmail())
+                        .userAddr(userDTO.getUserAddr())
+                        .userModfDate(LocalDateTime.now())
+                        .build();
+            }
 
             userService.updateUserInfo(user);
 
@@ -387,6 +407,7 @@ public class UserController {
             return ResponseEntity.ok().body(responseDTO);
         } catch(Exception e) {
             returnMap.put("updateMyInfoMsg", "updateNo");
+
             responseDTO.setItem(returnMap);
             responseDTO.setErrorMessage(e.getMessage());
 

@@ -47,6 +47,18 @@
                         window.scrollTo(0, 0);
                     }
                 });
+
+                // 로그인된 경우에만 넘어가도록
+                const loginUser = /*[[${#authentication.principal}]]*/;
+
+                $("#broker-view-more a").on("click", function(e) {
+                    if(loginUser == "anonymousUser") {
+                        e.preventDefault();
+
+                        // 로그인 화면으로 이동
+                        window.location.href = "/user/login";
+                    }
+                });
             });
         </script>
     </th:block>

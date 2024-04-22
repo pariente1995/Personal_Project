@@ -43,7 +43,7 @@ public class NewsController {
         ModelAndView mv = new ModelAndView();
 
         mv.setViewName("news/news_list");
-        mv.addObject("getNewsSeleniumCrawlingList", getNewsSeleniumCrawlingList);
+        mv.addObject("getNewsCrawlingList", getNewsSeleniumCrawlingList);
         mv.addObject("newsDate", newsDate);
 
         return mv;
